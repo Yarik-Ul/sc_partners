@@ -103,7 +103,7 @@
           <p class="registration-form-title">Реєстрація</p>
         </div>
 
-        <form action="#" method="post" class="registration-form">
+        <form action="#" method="post">
           <fieldset class="fieldset-box">
             <input
                 class="input-style"
@@ -316,6 +316,7 @@
   background-color: var(--gray-700);
   border-bottom-right-radius: 25px;
   border-top-right-radius: 25px;
+  padding: 25px 30px;
 }
 .registration-title-wrapper {
   display: flex;
@@ -355,7 +356,7 @@ line-height: 12px;
 margin: -5px 0 10px 0;
 padding-left: 16px;
 }
-.no-error {
+.error {
   display: block;
 }
 

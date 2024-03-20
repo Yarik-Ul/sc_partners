@@ -45,10 +45,7 @@ export default {
     const btnReg = document.querySelector('.btn-reg') // registration button
     const loginWindow = document.querySelector('.login-form-container') // login window
     const regWindow = document.querySelector('.registration-container') // registration window
-    const closeLogin = document.querySelector('.close-login') //close button login
-    const closeReg = document.querySelector('.close-registration') //close button registation
-    const loginForm = document.querySelector('.login-form') // login form
-    const registrationForm = document.querySelector('.registration-form') // registration form
+    const closeForm = document.querySelectorAll('.close-form') //button close form
 
     function showRegLoginWindow(event) {
       if (event.target === btnLogin) {
@@ -57,17 +54,28 @@ export default {
         regWindow.classList.add('active')
       }
     }
+
     header.addEventListener('click', showRegLoginWindow)
 
-    ////closing the registration and login window
-
-    closeLogin.onclick = () => {
-      loginWindow.classList.remove('active')
-      loginForm.reset()
-    }
-    closeReg.onclick = () => {
-      regWindow.classList.remove('active')
-      registrationForm.reset()
+    //closing the registration and login window
+    closeForm.forEach((elem) => {
+      elem.onclick = () => {
+        regWindow.classList.remove('active')
+        loginWindow.classList.remove('active')
+        clearInputs()
+      }
+    })
+    const iconSpans = document.querySelectorAll('span[class*="icon"]') //all span with class containing "icon"
+    const allInputs = document.querySelectorAll('input:not([type="radio"])') //all inputs
+    const allerrorText = document.querySelectorAll('p[class*="error"]') //all p with class containing "error"
+    // clear inputs
+    function clearInputs() {
+      allInputs.forEach((elem) => {
+        elem.value = ''
+        elem.style.borderColor = "var(--gray-500)";
+      })
+      iconSpans.forEach((elem) => elem.classList.remove('valid', 'unvalid'))
+      allerrorText.forEach((elem) => elem.classList.remove('error'))
     }
 
     // ***** END opening the registration and login window *****
@@ -214,20 +222,20 @@ export default {
       let isValid = passwordPattern.test(userPassword.value)
       if (isValid) {
         userPassword.style.borderColor = 'var(--green)'
-        passwordError.classList.remove('no-error')
+        passwordError.classList.remove('error')
       } else {
         userPassword.style.borderColor = 'var(--orange)'
-        passwordError.classList.add('no-error')
+        passwordError.classList.add('error')
       }
     })
 
     checkUserPassword.addEventListener('input', () => {
       if (checkUserPassword.value === userPassword.value) {
         checkUserPassword.style.borderColor = 'var(--green)'
-        checkPasswordError.classList.remove('no-error')
+        checkPasswordError.classList.remove('error')
       } else {
         checkUserPassword.style.borderColor = 'var(--orange)'
-        checkPasswordError.classList.add('no-error')
+        checkPasswordError.classList.add('error')
       }
     })
     // check messenger
