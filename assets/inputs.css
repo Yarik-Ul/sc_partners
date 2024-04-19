@@ -1,0 +1,114 @@
+/* styles for inputs */
+
+/* common styles */
+.input-style {
+  position: relative;
+  width: 295px;
+  height: 48px;
+  padding: 16px;
+  border-radius: 70px;
+  border: 2px solid var(--gray-600);
+  background-color: var(--gray-700);
+  font-family: var(--gilroy);
+  color: var(--gray-300);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  margin-bottom: 10px;
+}
+
+.input-style:hover {
+  border: 2px solid var(--gray-500);
+}
+
+.input-style:focus {
+  border: 2px solid var(--yellow);
+}
+
+.input-style::placeholder,
+.input-style:focus::placeholder {
+  font-family: var(--gilroy);
+  color: var(--gray-500);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+label {
+    position: relative;
+    width: 100%;
+  }
+
+/* END common styles */
+/* validation icons */
+.valid {
+  top: -46px;
+  right: 12px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-image: url('~assets/icons/check_ok.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.unvalid {
+  top: -46px;
+  right: 12px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-image: url('~assets/icons/check_error.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.show-password {
+  position: absolute;
+  top: -48px;
+  right: 12px;
+  z-index: 10;
+  width: 25px;
+  height: 25px;
+  background-image: url('~assets/icons/icon_eye.svg');
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+}
+/* END validation icons */
+/* messenger */
+input[type='radio'] {
+  display: none;
+}
+
+input[type='radio']:checked + label {
+  background-color: var(--gray-600);
+}
+
+.telegram,
+.skype {
+  flex: 0 0 45px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-image: url('~assets/icons/icon_telegram.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.skype {
+  background-image: url('~assets/icons/icon_skype.svg');
+}
+
+.messenger-icon {
+  position: absolute;
+  top: -18px;
+  right: 24px;
+}
+
+.messenger-input {
+  width: 185px;
+}
+/* messenger */
