@@ -1,4 +1,6 @@
 # sc_partners
+node v20.11.1
+npm 10.5.0
 
 ## Build Setup
 

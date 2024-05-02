@@ -3,10 +3,10 @@
     <div class="main-container">
       <section class="traffic-masters">
         <div class="title-wrap">
-          <img src="~assets/img/hand.svg" class="title-hand" alt="left hand" />
+          <img src="~assets/icons/hand.svg" class="title-hand" alt="left hand" />
           <h1 class="traffic-masters-title">Володарі Трафіку</h1>
           <img
-            src="~assets/img/hand.svg"
+            src="~assets/icons/hand.svg"
             class="title-hand right-hand"
             alt="right hand"
           />
@@ -69,35 +69,35 @@
 
 <style>
 .main-container {
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  margin: 100px auto 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .traffic-masters {
   position: relative;
-  max-width: 900px;
-  padding: 39px 44px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 auto 125px auto;
-  border-radius: 24px;
   row-gap: 25px;
+  align-items: center;
+  max-width: 900px;
+  padding: 39px 44px;
+  margin: 0 auto 125px;
   background-color: #23262f80;
+  border-radius: 24px;
 }
 
 .traffic-masters::before {
-  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('~assets/img/graph.png');
-  background-position: center;
+  content: '';
+  background-image: url('~assets/img/graph.webp');
   background-repeat: no-repeat;
+  background-position: center;
   background-size: contain;
 }
 
@@ -141,13 +141,13 @@
 }
 
 .icon-star::after {
-  content: '';
   position: absolute;
   width: 100%;
   height: 100%;
+  content: '';
   background-image: url('~assets/icons/icon_star.svg');
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center;
   background-size: contain;
 }
 
@@ -159,26 +159,26 @@
 }
 
 .information-title {
+  margin-bottom: 75px;
   font-family: var(--gilroy);
-  color: var(--gray-200);
   font-size: 32px;
   font-weight: 700;
   line-height: 40px;
-  margin-bottom: 75px;
+  color: var(--gray-200);
 }
 
 .information-list {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .information-item {
-  width: 345px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   row-gap: 25px;
+  align-items: center;
+  width: 345px;
 }
 
 .information-item-icon {
@@ -210,9 +210,9 @@
 .information-text-block {
   display: flex;
   flex-direction: column;
+  gap: 25px;
   align-items: center;
   justify-content: center;
-  gap: 25px;
 }
 
 .information-item-title {
@@ -221,8 +221,9 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
-  text-align: center;
   color: var(--gray-400);
+  text-align: center;
+  word-wrap: break-word;
 }
 
 .br {
@@ -232,17 +233,17 @@
 .information-item-disc {
   font-family: var(--gray-500);
   text-align: center;
+  word-wrap: break-word;
 }
 
-@media (max-width: 1023px) {
+@media (width <= 1023px) {
   .main-container {
-    padding: 10px;
+    padding: 0 15px 50px;
   }
 }
 
-@media (min-width: 375px) and (max-width: 767px) {
+@media (width >= 375px) and (width <= 767px) {
   .main-container {
-    margin-top: 50px;
     flex-direction: column-reverse;
   }
 
@@ -251,16 +252,15 @@
   }
 
   .information-title {
+    margin-bottom: 35px;
     font-size: 25px;
     line-height: 25px;
-    margin-bottom: 35px;
   }
 
   .information-list {
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
+    flex-flow: column wrap;
     gap: 25px;
+    align-items: center;
   }
 
   .information-item {
@@ -272,17 +272,18 @@
   .information-item-icon {
     width: 45px;
     height: 45px;
+    background-size: 25px;
   }
 
   .information-text-block {
-    width: 245px;
     gap: 5px;
+    width: 245px;
   }
 
   .information-item-title,
   .information-item-disc {
-    text-align: left;
     width: 100%;
+    text-align: left;
   }
 
   .br {
@@ -290,8 +291,8 @@
   }
 
   .traffic-masters {
-    padding: 27px;
-    margin-bottom: 35px;
+    padding: 24px;
+    margin-bottom: 0;
   }
 
   .title-wrap {
