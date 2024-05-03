@@ -2,6 +2,7 @@
 export default {
   data() {
     return {
+    //for practice
       slides: [
         { cpa: "$25", revshare: '60%' },
         { cpa: "$30", revshare: '50%' },
@@ -39,12 +40,12 @@ export default {
     <h3 class="slider-title">Зможеш обрати <br /> свій варіант</h3>
     <div class="reg-slider-container">
       <div class="reg-slider-wrap" ref="carousel">
-        <div class="slider-element" v-for="(slide, index) in slides" :key="index" :currentIndex="index">
+        <div class="slider-element" v-for="(slide, index) in slides" :currentIndex="index">
           <ul class="slider-list">
             <li class="slider-list-item">
               <div class="list-item-icon"></div>
               <div class="list-item-text">
-                <h4 class="list-item-title">CPA {{ slide.index }}</h4>
+                <h4 class="list-item-title">CPA</h4>
                 <p class="list-item-disc">{{ slide.cpa }} і вище</p>
               </div>
             </li>
@@ -67,12 +68,11 @@ export default {
       </div>
     </div>
     <div class="slider-pagination-wrap">
-      <button @click="prevSlide" class="slider-btn-prew slider-btn"></button>
+      <button class="slider-btn-prew slider-btn" @click="prevSlide"></button>
       <div class="pagination-dots">
-        <span class="pagination-dot" v-for="index in slides.length" :key="index" :currentPagination="index"
-          :class="{ 'dot-active': currentPagination === index }"></span>
+        <span class="pagination-dot" :class="{ 'dot-active': currentPagination === index }" v-for="index in slides.length" :currentPagination="index"></span>
       </div>
-      <button @click="nextSlide" class="slider-btn-next slider-btn"></button>
+      <button class="slider-btn-next slider-btn" @click="nextSlide"></button>
     </div>
   </div>
 </template>

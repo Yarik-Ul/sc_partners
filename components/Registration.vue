@@ -13,11 +13,11 @@ export default {
       repeatPassword: '',
       messengerLink: '',
       selectedMessenger: 'telegram',
-      mesengerPlaceholder: '@телеграм_адреса',
+      messengerPlaceholder: '@телеграм_адреса',
       isValidName: false,
       isInvalidName: false,
-      isValid: false,
-      isInvalid: false,
+      isValidEmail: false,
+      isInvalidEmail: false,
       isValidPass: false,
       isInvalidPass: false,
       isValidCheckPass: false,
@@ -48,8 +48,8 @@ export default {
     },
 
     validateRegEmail() {
-      this.isValid = this.validationPattern(this.emailPattern, this.regEmail);
-      this.isInvalid = !this.isValid;
+      this.isValidEmail = this.validationPattern(this.emailPattern, this.regEmail);
+      this.isInvalidEmail = !this.isValidEmail;
     },
 
     validateRegPass() {
@@ -58,13 +58,8 @@ export default {
     },
 
     checkPassword() {
-      if (this.registrationPassword === this.repeatPassword) {
-        this.isValidCheckPass = true
-        this.isInvalidCheckPass = false
-      } else if (this.registrationPassword !== this.repeatPassword) {
-        this.isInvalidCheckPass = true
-        this.isValidCheckPass = false
-      }
+      this.isValidCheckPass = this.registrationPassword === this.repeatPassword;
+      this.isInvalidCheckPass = !this.isValidCheckPass;
     },
 
     validateMessenger() {
@@ -73,36 +68,38 @@ export default {
     },
 
     showPassword() {
-      this.password === 'password'
-        ? (this.password = 'text')
-        : (this.password = 'password')
+      this.password = (this.password === 'password') ? 'text' : 'password';
     },
+
     clearInputName() {
-      this.userName = ''
+      this.userName = '',
+      this.isValidName = false,
+      this.isInvalidName = false
     },
+
     clearInputEmail() {
-      this.regEmail = ''
+      this.regEmail = '',
+      this.isValidEmail = false,
+      this.isInvalidEmail = false
     },
-    chooseTelegram() {
-      this.isTelegram = !this.isTelegram
-      this.isSkype = !this.isSkype
-      if (this.isTelegram) {
-        this.selectedMessenger = 'telegram'
-        this.mesengerPlaceholder = '@телеграм_адреса'
-      } else {
-        this.selectedMessenger = 'skype'
-        this.mesengerPlaceholder = 'Skype'
-      }
+
+    clearInputMsg () {
+      this.messengerLink = '',
+      this.isValidMsg = false,
+      this.isInvalidMsg = false
     },
-    chooseSkype() {
-      this.isSkype = !this.isSkype
-      this.isTelegram = !this.isTelegram
-      if (this.isTelegram) {
-        this.selectedMessenger = 'telegram'
-        this.mesengerPlaceholder = '@телеграм_адреса'
-      } else {
-        this.selectedMessenger = 'skype'
-        this.mesengerPlaceholder = 'Skype'
+
+    chooseMessenger(messenger) {
+      if (messenger === 'telegram') {
+        this.isTelegram = true;
+        this.isSkype = false;
+        this.selectedMessenger = 'telegram';
+        this.messengerPlaceholder = '@телеграм_адреса';
+      } else if (messenger === 'skype') {
+        this.isSkype = true;
+        this.isTelegram = false;
+        this.selectedMessenger = 'skype';
+        this.messengerPlaceholder = 'Skype';
       }
     },
   },
@@ -112,7 +109,7 @@ export default {
 <template>
   <div class="registration-container" :class="{ active: regActive }">
     <div class="registration-wrapper">
-      <div @click="closeForm" class="close-form">
+      <div class="close-form" @click="closeForm">
         <span class="close-line"></span>
       </div>
       <Slider />
@@ -124,62 +121,59 @@ export default {
         <form action="#" method="post">
           <fieldset class="fieldset-box">
             <div>
-              <input v-model="userName" @input="validateUserName"
-                :class="{ 'input-error': isInvalidName, 'input-not-error': isValidName, }" class="input-style" type="text"
-                name="name" id="name" placeholder="Ваше імʼя" />
+              <input class="input-style" :class="{ 'input-error': isInvalidName, 'input-not-error': isValidName, }"
+                @input="validateUserName" v-model="userName" type="text" name="name" id="name" placeholder="Ваше імʼя" />
               <label for="name">
-                <span @click="clearInputName" :class="{ valid: isValidName, unvalid: isInvalidName }">
+                <span :class="{ valid: isValidName, unvalid: isInvalidName }" @click="clearInputName">
                 </span>
               </label>
             </div>
             <div>
-              <input :class="{ 'input-error': isInvalid, 'input-not-error': isValid }" v-model="regEmail"
-                @input="validateRegEmail" class="input-style" type="email" name="email" id="email"
+              <input class="input-style" :class="{ 'input-error': isInvalidEmail, 'input-not-error': isValidEmail }"
+                @input="validateRegEmail" v-model="regEmail" type="email" name="email" id="email"
                 placeholder="Ваш email" />
-              <label for="email"><span @click="clearInputEmail"
-                  :class="{ valid: isValid, unvalid: isInvalid }"></span></label>
+              <label for="email"><span :class="{ valid: isValidEmail, unvalid: isInvalidEmail }"
+                  @click="clearInputEmail"></span></label>
             </div>
             <div>
-              <input v-model="registrationPassword" :class="{
-                'input-error': isInvalidPass,
-                'input-not-error': isValidPass,
-              }" @input="validateRegPass" class="input-style" :type="password" name="password" id="password"
+              <input class="input-style" :class="{ 'input-error': isInvalidPass, 'input-not-error': isValidPass }"
+                @input="validateRegPass" v-model="registrationPassword" :type="password" name="password" id="password"
                 placeholder="Ваш пароль" />
               <label for="password">
-                <p v-if="isInvalidPass" class="password-error">
+                <p class="password-error" v-if="isInvalidPass">
                   Пароль має містити літери і символи
                 </p>
-                <span @click="showPassword" class="show-password"></span>
+                <span class="show-password" @click="showPassword"></span>
               </label>
             </div>
             <div>
-              <input v-model="repeatPassword" @input="checkPassword" :class="{
-                'input-error': isInvalidCheckPass,
-                'input-not-error': isValidCheckPass,
-              }" class="input-style" :type="password" name="check-password" id="check-password"
+              <input class="input-style"
+                :class="{ 'input-error': isInvalidCheckPass, 'input-not-error': isValidCheckPass }" @input="checkPassword"
+                v-model="repeatPassword" :type="password" name="check-password" id="check-password"
                 placeholder="Повторіть пароль" />
               <label for="check-password">
-                <p v-if="isInvalidCheckPass" class="check-password-error">
+                <p class="check-password-error" v-if="isInvalidCheckPass">
                   Паролі не співпадають
                 </p>
-                <span @click="showPassword" class="show-password"></span>
+                <span class="show-password" @click="showPassword"></span>
               </label>
             </div>
             <div class="choose-messenger">
               <p class="messenger-tilte">Оберіть спосіб звязку</p>
               <div class="communication-method">
-                <button @click.prevent="chooseTelegram" class="telegram" :class="{ 'choose-msg': isTelegram }"></button>
-                <button @click.prevent="chooseSkype" class="skype" :class="{ 'choose-msg': isSkype }"></button>
-                <input :class="{
-                  'input-error': isInvalidMsg,
-                  'input-not-error': isValidMsg,
-                }" v-model="messengerLink" @input="validateMessenger" type="text" id="messenger-link"
-                  name="messenger-link" class="input-style messenger-input" :placeholder="mesengerPlaceholder" />
-                <label for="messenger-link"><span :class="{ valid: isValidMsg, unvalid: isInvalidMsg }"
-                    class="messenger-icon"></span></label>
+                <button class="telegram" :class="{ 'choose-msg': isTelegram }"
+                  @click.prevent="chooseMessenger('telegram')"></button>
+                <button class="skype" :class="{ 'choose-msg': isSkype }"
+                  @click.prevent="chooseMessenger('skype')"></button>
+                <input class="input-style messenger-input"
+                  :class="{ 'input-error': isInvalidMsg, 'input-not-error': isValidMsg }" @input="validateMessenger"
+                  v-model="messengerLink" type="text" id="messenger-link" name="messenger-link"
+                  :placeholder="messengerPlaceholder" />
+                <label for="messenger-link"><span class="messenger-icon"
+                    :class="{ valid: isValidMsg, unvalid: isInvalidMsg }" @click="clearInputMsg"></span></label>
               </div>
             </div>
-            <button @click.prevent="" type="submit" class="btn-submit-reg-form">
+            <button class="btn-submit-reg-form" @click.prevent="" type="submit">
               Реєстрація
             </button>
           </fieldset>

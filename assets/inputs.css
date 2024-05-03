@@ -36,9 +36,9 @@
 }
 
 label {
-    position: relative;
-    width: 100%;
-  }
+  position: relative;
+  width: 100%;
+}
 
 /* END common styles */
 
@@ -52,6 +52,12 @@ label {
   background-image: url('~assets/icons/check_ok.svg');
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.valid:hover {
+  cursor: pointer;
+  background-image: url('~assets/icons/check_error.svg');
+  transition: background-image 300ms ease;
 }
 
 .unvalid {

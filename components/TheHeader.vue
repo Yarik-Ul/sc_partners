@@ -1,16 +1,10 @@
 <script>
 export default {
-  data() {
-    return{
-      
-    }
-
-  },
   methods: {
-    showLoginWindow(){
+    showLoginWindow() {
       this.$emit('showLoginWindow')
     },
-    showRegWindow(){
+    showRegWindow() {
       this.$emit('showRegWindow')
     }
   },
@@ -23,23 +17,25 @@ export default {
         <a href="#"><img src="~assets/icons/logo.svg" alt="logo" /></a>
       </div>
       <div class="header-btn">
-        <button @click="showLoginWindow" class="btn-login">Вхід</button>
-        <button @click="showRegWindow" class="btn-reg">Реєстрація</button>
+        <button class="btn-login" @click="showLoginWindow">Вхід</button>
+        <button class="btn-reg" @click="showRegWindow">Реєстрація</button>
       </div>
     </div>
   </header>
 </template>
 
 <style>
+.header {
+  border-bottom: 1px solid var(--gray-700);
+}
+
 .header-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   place-items: center center;
   max-width: 1440px;
   padding: 24px 0;
-  margin: 0 auto 100px;
-  border-bottom: 1px solid var(--gray-700);
-
+  margin: 0 auto;
 }
 
 .logo-wrapper {
@@ -94,7 +90,7 @@ export default {
   border: 2px solid var(--gray-100);
 }
 
-@media (width >= 375px) and (width <= 767px) {
+@media (width >=375px) and (width <=767px) {
   .header {
     position: sticky;
     top: 0;
@@ -106,19 +102,18 @@ export default {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 10px 15px;
-    margin-bottom: 50px;
   }
 
   .logo-wrapper {
-  grid-column: 1/2;
-  justify-self: start;
-}
+    grid-column: 1/2;
+    justify-self: start;
+  }
 
-.header-btn {
-  grid-column: 2/3;
-  margin-right: 0;
-}
- 
+  .header-btn {
+    grid-column: 2/3;
+    margin-right: 0;
+  }
+
   .btn-reg {
     margin-left: 10px;
   }

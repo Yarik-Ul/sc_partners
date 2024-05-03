@@ -1,58 +1,56 @@
 @font-face {
-    font-family: Gilroy;
-    font-style: normal;
-    font-weight: bold;
-    src: url('./fonts/Gilroy-Bold.woff2') format('woff2');
-    font-display: swap;
+  font-family: Gilroy;
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/Gilroy-Bold.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    src: url('./fonts/Roboto-Bold.woff2') format('woff2');
-    font-display: swap;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/Roboto-Bold.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    src: url('./fonts/Roboto-Medium.woff2') format('woff2');
-    font-display: swap;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/Roboto-Medium.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    src: url('./fonts/Roboto-Regular.woff2') format('woff2');
-    font-display: swap;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/Roboto-Regular.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: normal;
-    src: url('./fonts/Poppins-Regular.woff2') format('woff2');
-    font-display: swap;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/Poppins-Regular.woff2') format('woff2');
+  font-display: swap;
 }
 
 :root {
-    --gray-800: #141416;
-    --gray-700: #23262F;
-    --gray-600: #353945;
-    --gray-500: #777E90;
-    --gray-400: #B1B5C3;
-    --gray-300: #E6E8EC;
-    --gray-200: #F4F5F6;
-    --gray-100: #FCFCFD;
-    --yellow: #FFC737;
-    --orange: #FF6838;
-    --green: #58BD7D;
-    --roboto: "Roboto", sans-serif;
-    --gilroy: "Gilroy", sans-serif;
-    --poppins: "Poppins", sans-serif;
+  --gray-800: #141416;
+  --gray-700: #23262f;
+  --gray-600: #353945;
+  --gray-500: #777e90;
+  --gray-400: #b1b5c3;
+  --gray-300: #e6e8ec;
+  --gray-200: #f4f5f6;
+  --gray-100: #fcfcfd;
+  --yellow: #ffc737;
+  --orange: #ff6838;
+  --green: #58bd7d;
+  --roboto: 'Roboto', sans-serif;
+  --gilroy: 'Gilroy', sans-serif;
+  --poppins: 'Poppins', sans-serif;
 }
-
-

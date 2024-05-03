@@ -3,13 +3,9 @@
     <div class="main-container">
       <section class="traffic-masters">
         <div class="title-wrap">
-          <img src="~assets/icons/hand.svg" class="title-hand" alt="left hand" />
+          <img class="title-hand" src="~assets/icons/hand.svg" alt="left hand" />
           <h1 class="traffic-masters-title">Володарі Трафіку</h1>
-          <img
-            src="~assets/icons/hand.svg"
-            class="title-hand right-hand"
-            alt="right hand"
-          />
+          <img class="title-hand right-hand" src="~assets/icons/hand.svg" alt="right hand" />
         </div>
         <p class="traffic-masters-disc">
           SC Partners – нова партнерська мережа з величезним досвідом та
@@ -72,7 +68,7 @@
   display: flex;
   flex-direction: column;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto 0;
 }
 
 .traffic-masters {
@@ -123,9 +119,11 @@
 }
 
 .traffic-masters-disc {
+  max-width: 812px;
   font-family: var(--roboto);
   line-height: 24px;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .stars {
@@ -236,15 +234,16 @@
   word-wrap: break-word;
 }
 
-@media (width <= 1023px) {
+@media (width <=1023px) {
   .main-container {
     padding: 0 15px 50px;
   }
 }
 
-@media (width >= 375px) and (width <= 767px) {
+@media (width >=375px) and (width <=767px) {
   .main-container {
     flex-direction: column-reverse;
+    margin-top: 50px;
   }
 
   .information {

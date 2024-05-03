@@ -4,15 +4,17 @@ export default {
     loginActive: {
       type: Boolean,
     },
+    loginPassword: {
+      type: String,
+    }
   },
   data() {
     return {
       loginEmail: '',
-      loginPassword: '',
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: 'password',
       isValid: false,
-      isInvalid: false,
+      isInvalid: false
     }
   },
   methods: {
@@ -20,12 +22,12 @@ export default {
       this.$emit('closeForm')
     },
     clearInput() {
-      this.loginEmail = ''
+      this.loginEmail = '',
+      this.isValid = false,
+      this.isInvalid = false
     },
     showPassword() {
-      this.password === 'password'
-        ? (this.password = 'text')
-        : (this.password = 'password')
+      this.password = (this.password === 'password') ? 'text' : 'password';
     },
 
     validateFunction(pattern, inputElement) {
@@ -49,21 +51,22 @@ export default {
         <div class="icon-login"></div>
         <p class="login-title">Вхід</p>
       </div>
-      <form action="#" method="post" class="login-form">
+      <form class="login-form" action="#" method="post">
         <fieldset class="fieldset-login-form">
           <div>
-            <input :class="{ 'input-error': isInvalid, 'input-not-error': isValid }" v-model="loginEmail"
-              @input="validateLoginEmail" class="input-style" type="email" name="loginEmail" id="login-email"
+            <input class="input-style" :class="{ 'input-error': isInvalid, 'input-not-error': isValid }"
+              @input="validateLoginEmail" v-model="loginEmail" type="email" name="loginEmail" id="login-email"
               placeholder="Ваш email" />
-            <label for="login-email"><span @click="clearInput"
-                :class="{ valid: isValid, unvalid: isInvalid }"></span></label>
+            <label for="login-email">
+              <span :class="{ valid: isValid, unvalid: isInvalid }" @click="clearInput"></span>
+            </label>
           </div>
           <div>
-            <input v-model="loginPassword" class="input-style" :type="password" name="loginPassword" id="login-password"
+            <input class="input-style" v-model="loginPassword" :type="password" name="loginPassword" id="login-password"
               placeholder="Ваш пароль" />
             <label for="login-password"><span @click="showPassword" class="show-password"></span></label>
           </div>
-          <button @click.prevent="" class="login-submit-btn" type="submit">Війти</button>
+          <button class="login-submit-btn" @click.prevent="" type="submit">Війти</button>
         </fieldset>
       </form>
     </div>

@@ -4,7 +4,8 @@ export default {
   data() {
     return {
       regActive: false,
-      loginActive: false
+      loginActive: false,
+      loginPassword: '',
     }
   },
   methods: {
@@ -12,21 +13,24 @@ export default {
       this.loginActive = true
       document.body.style.overflow = "hidden"
     },
+
     showRegWindow() {
       this.regActive = true
       document.body.style.overflow = "hidden"
     },
+
     closeForm() {
-      this.regActive = false,
-        this.loginActive = false
-        document.body.style.overflow = ""
+      this.regActive = false
+      this.loginActive = false
+      this.loginPassword = '',
+      document.body.style.overflow = ""
     }
   },
 }
 </script>
 <template>
   <div class="container">
-    <Login :loginActive="loginActive" @closeForm="closeForm" />
+    <Login :loginActive="loginActive" :loginPassword="loginPassword" @closeForm="closeForm" />
     <Registration :regActive="regActive" @closeForm="closeForm" />
     <TheHeader @showLoginWindow="showLoginWindow" @showRegWindow="showRegWindow" />
     <TheMain />
@@ -42,7 +46,6 @@ body {
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: top;
-  background-clip: border-box;
   background-size: cover;
 }
 
@@ -62,7 +65,7 @@ body {
 
 @media (width >=375px) and (width <=767px) {
   body {
-  background-image: url('./assets/img/bg_mini.webp');
-}
+    background-image: url('./assets/img/bg_mini.webp');
+  }
 }
 </style>
