@@ -14,7 +14,8 @@ export default {
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: 'password',
       isValid: false,
-      isInvalid: false
+      isInvalid: false,
+      passwordText: true,
     }
   },
   methods: {
@@ -23,11 +24,12 @@ export default {
     },
     clearInput() {
       this.loginEmail = '',
-      this.isValid = false,
-      this.isInvalid = false
+        this.isValid = false,
+        this.isInvalid = false
     },
     showPassword() {
       this.password = (this.password === 'password') ? 'text' : 'password';
+      this.passwordText = !this.passwordText;
     },
 
     validateFunction(pattern, inputElement) {
@@ -53,20 +55,16 @@ export default {
       </div>
       <form class="login-form" action="#" method="post">
         <fieldset class="fieldset-login-form">
-          <div>
+          <div class="input-wrapper">
             <input class="input-style" :class="{ 'input-error': isInvalid, 'input-not-error': isValid }"
-              @input="validateLoginEmail" v-model="loginEmail" type="email" name="loginEmail" id="login-email"
-              placeholder="Ваш email" />
-            <label for="login-email">
-              <span :class="{ valid: isValid, unvalid: isInvalid }" @click="clearInput"></span>
-            </label>
+              @input="validateLoginEmail" v-model="loginEmail" type="email" name="loginEmail" placeholder="Ваш email" />
+              <button class="validate-btn" :class="{ 'valid': isValid, 'unvalid': isInvalid }" @click.prevent="clearInput"></button>
           </div>
-          <div>
-            <input class="input-style" v-model="loginPassword" :type="password" name="loginPassword" id="login-password"
-              placeholder="Ваш пароль" />
-            <label for="login-password"><span @click="showPassword" class="show-password"></span></label>
+          <div class="input-wrapper">
+            <input class="input-style" :class="{'password-text': passwordText }" v-model="loginPassword" :type="password" name="loginPassword" placeholder="Ваш пароль" />
+            <button @click.prevent="showPassword" class="show-password"></button>
           </div>
-          <button class="login-submit-btn" @click.prevent="" type="submit">Війти</button>
+          <button class="login-submit-btn" @submit.prevent type="submit">Війти</button>
         </fieldset>
       </form>
     </div>
@@ -144,17 +142,11 @@ export default {
   padding: 10px;
   margin-right: 10px;
   background-color: var(--orange);
-  border-radius: 15px;
-}
-
-.icon-login::after {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  content: '';
   background-image: url('~assets/icons/icon_lock.svg');
+  background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: 25px;
+  border-radius: 15px;
 }
 
 .login-title {

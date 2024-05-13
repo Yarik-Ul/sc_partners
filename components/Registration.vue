@@ -26,6 +26,7 @@ export default {
       isSkype: false,
       isValidMsg: false,
       isInvalidMsg: false,
+      passwordText: true,
       password: 'password',
       passwordPattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_-]{6,16}$/,
       userNamePattern: /^[а-яА-ЯїЇєЄіІґҐ]{2,16}$/,
@@ -69,24 +70,25 @@ export default {
 
     showPassword() {
       this.password = (this.password === 'password') ? 'text' : 'password';
+      this.passwordText = !this.passwordText;
     },
 
     clearInputName() {
       this.userName = '',
-      this.isValidName = false,
-      this.isInvalidName = false
+        this.isValidName = false,
+        this.isInvalidName = false
     },
 
     clearInputEmail() {
       this.regEmail = '',
-      this.isValidEmail = false,
-      this.isInvalidEmail = false
+        this.isValidEmail = false,
+        this.isInvalidEmail = false
     },
 
-    clearInputMsg () {
+    clearInputMsg() {
       this.messengerLink = '',
-      this.isValidMsg = false,
-      this.isInvalidMsg = false
+        this.isValidMsg = false,
+        this.isInvalidMsg = false
     },
 
     chooseMessenger(messenger) {
@@ -112,7 +114,7 @@ export default {
       <div class="close-form" @click="closeForm">
         <span class="close-line"></span>
       </div>
-      <Slider />
+      <RegistrationSlider />
       <div class="registration-form">
         <div class="registration-title-wrapper">
           <div class="registration-icon"></div>
@@ -120,44 +122,32 @@ export default {
         </div>
         <form action="#" method="post">
           <fieldset class="fieldset-box">
-            <div>
+            <div class="input-wrapper">
               <input class="input-style" :class="{ 'input-error': isInvalidName, 'input-not-error': isValidName, }"
-                @input="validateUserName" v-model="userName" type="text" name="name" id="name" placeholder="Ваше імʼя" />
-              <label for="name">
-                <span :class="{ valid: isValidName, unvalid: isInvalidName }" @click="clearInputName">
-                </span>
-              </label>
+                @input="validateUserName" v-model="userName" type="text" name="name" placeholder="Ваше імʼя" />
+              <button class="validate-btn" :class="{ 'valid': isValidName, 'unvalid': isInvalidName }"
+                @click.prevent="clearInputName"></button>
             </div>
-            <div>
+            <div class="input-wrapper">
               <input class="input-style" :class="{ 'input-error': isInvalidEmail, 'input-not-error': isValidEmail }"
-                @input="validateRegEmail" v-model="regEmail" type="email" name="email" id="email"
-                placeholder="Ваш email" />
-              <label for="email"><span :class="{ valid: isValidEmail, unvalid: isInvalidEmail }"
-                  @click="clearInputEmail"></span></label>
+                @input="validateRegEmail" v-model="regEmail" type="email" name="email" placeholder="Ваш email" />
+              <button class="validate-btn" :class="{ 'valid': isValidEmail, 'unvalid': isInvalidEmail }"
+                @click.prevent="clearInputEmail"></button>
             </div>
-            <div>
-              <input class="input-style" :class="{ 'input-error': isInvalidPass, 'input-not-error': isValidPass }"
-                @input="validateRegPass" v-model="registrationPassword" :type="password" name="password" id="password"
+            <div class="input-wrapper">
+              <input class="input-style" :class="{ 'input-error': isInvalidPass, 'input-not-error': isValidPass, 'password-text': passwordText }"
+                @input="validateRegPass" v-model="registrationPassword" :type="password" name="password"
                 placeholder="Ваш пароль" />
-              <label for="password">
-                <p class="password-error" v-if="isInvalidPass">
-                  Пароль має містити літери і символи
-                </p>
-                <span class="show-password" @click="showPassword"></span>
-              </label>
+              <button class="show-password" @click.prevent="showPassword"></button>
             </div>
-            <div>
+            <p class="password-error" v-if="isInvalidPass">Пароль має містити літери і символи</p>
+            <div class="input-wrapper">
               <input class="input-style"
-                :class="{ 'input-error': isInvalidCheckPass, 'input-not-error': isValidCheckPass }" @input="checkPassword"
-                v-model="repeatPassword" :type="password" name="check-password" id="check-password"
-                placeholder="Повторіть пароль" />
-              <label for="check-password">
-                <p class="check-password-error" v-if="isInvalidCheckPass">
-                  Паролі не співпадають
-                </p>
-                <span class="show-password" @click="showPassword"></span>
-              </label>
+                :class="{ 'input-error': isInvalidCheckPass, 'input-not-error': isValidCheckPass, 'password-text': passwordText }" @input="checkPassword"
+                v-model="repeatPassword" :type="password" name="check-password" placeholder="Повторіть пароль" />
+              <button class="show-password" @click.prevent="showPassword"></button>
             </div>
+            <p class="check-password-error" v-if="isInvalidCheckPass">Паролі не співпадають</p>
             <div class="choose-messenger">
               <p class="messenger-tilte">Оберіть спосіб звязку</p>
               <div class="communication-method">
@@ -167,10 +157,8 @@ export default {
                   @click.prevent="chooseMessenger('skype')"></button>
                 <input class="input-style messenger-input"
                   :class="{ 'input-error': isInvalidMsg, 'input-not-error': isValidMsg }" @input="validateMessenger"
-                  v-model="messengerLink" type="text" id="messenger-link" name="messenger-link"
-                  :placeholder="messengerPlaceholder" />
-                <label for="messenger-link"><span class="messenger-icon"
-                    :class="{ valid: isValidMsg, unvalid: isInvalidMsg }" @click="clearInputMsg"></span></label>
+                  v-model="messengerLink" type="text" name="messenger-link" :placeholder="messengerPlaceholder" />
+                <button class="validate-btn" :class="{ 'valid': isValidMsg, 'unvalid': isInvalidMsg }" @click.prevent="clearInputMsg"></button>
               </div>
             </div>
             <button class="btn-submit-reg-form" @click.prevent="" type="submit">
@@ -277,6 +265,7 @@ export default {
 }
 
 .communication-method {
+  position: relative;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -323,5 +312,4 @@ export default {
   .registration-icon {
     margin-bottom: 25px;
   }
-}
-</style>
+}</style>
