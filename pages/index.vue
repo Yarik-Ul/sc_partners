@@ -5,32 +5,31 @@ export default {
     return {
       regActive: false,
       loginActive: false,
-      loginPassword: '',
     }
   },
   methods: {
     showLoginWindow() {
       this.loginActive = true
-      document.body.style.overflow = "hidden"
+      document.body.classList.toggle('scroll-off')
     },
 
     showRegWindow() {
       this.regActive = true
-      document.body.style.overflow = "hidden"
+      document.body.classList.toggle('scroll-off')
     },
 
     closeForm() {
       this.regActive = false
       this.loginActive = false
       this.loginPassword = '',
-      document.body.style.overflow = ""
+      document.body.classList.toggle('scroll-off')
     }
   },
 }
 </script>
 <template>
   <div class="container">
-    <Login :loginActive="loginActive" :loginPassword="loginPassword" @closeForm="closeForm" />
+    <Login :loginActive="loginActive" @closeForm="closeForm" />
     <Registration :regActive="regActive" @closeForm="closeForm" />
     <TheHeader @showLoginWindow="showLoginWindow" @showRegWindow="showRegWindow" />
     <TheMain />
@@ -56,11 +55,13 @@ body {
   font-weight: 400;
   line-height: 24px;
   color: var(--gray-500);
-
 }
 
 .active {
   display: flex;
+}
+.scroll-off {
+  overflow: hidden;
 }
 
 @media (width >=375px) and (width <=767px) {

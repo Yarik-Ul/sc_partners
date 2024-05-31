@@ -9,19 +9,15 @@ export default {
     return {
       userName: '',
       regEmail: '',
-      registrationPassword: '',
-      repeatPassword: '',
+      regPass: '',
+      repeatRegPass: '',
       messengerLink: '',
       selectedMessenger: 'telegram',
       messengerPlaceholder: '@телеграм_адреса',
       isValidName: false,
-      isInvalidName: false,
       isValidEmail: false,
-      isInvalidEmail: false,
       isValidPass: false,
-      isInvalidPass: false,
-      isValidCheckPass: false,
-      isInvalidCheckPass: false,
+      isValidCheckPass: true,
       isTelegram: true,
       isSkype: false,
       isValidMsg: false,
@@ -34,6 +30,28 @@ export default {
       messengerPattern: /^@[a-zA-Z\d]{2,}$/,
     }
   },
+  computed: {
+    classObjName() {
+      if (this.userName !== '') {
+        return this.isValidName ? 'valid' : 'unvalid'
+      }
+    },
+    classObjEmail() {
+      if (this.regEmail !== '') {
+        return this.isValidEmail ? 'valid' : 'unvalid'
+      }
+    },
+    classObjPass() {
+      if (this.regPass !== '') {
+        return this.isValidPass ? 'valid' : 'unvalid'
+      }
+    },
+    classObjRepPass() {
+      if (this.repeatRegPass !== '') {
+        return this.isValidCheckPass ? 'valid' : 'unvalid'
+      }
+    },
+  },
   methods: {
     closeForm() {
       this.$emit('closeForm')
@@ -45,22 +63,18 @@ export default {
 
     validateUserName() {
       this.isValidName = this.validationPattern(this.userNamePattern, this.userName);
-      this.isInvalidName = !this.isValidName;
     },
 
     validateRegEmail() {
       this.isValidEmail = this.validationPattern(this.emailPattern, this.regEmail);
-      this.isInvalidEmail = !this.isValidEmail;
     },
 
     validateRegPass() {
-      this.isValidPass = this.validationPattern(this.passwordPattern, this.registrationPassword);
-      this.isInvalidPass = !this.isValidPass;
+      this.isValidPass = this.validationPattern(this.passwordPattern, this.regPass);
     },
 
     checkPassword() {
-      this.isValidCheckPass = this.registrationPassword === this.repeatPassword;
-      this.isInvalidCheckPass = !this.isValidCheckPass;
+      this.isValidCheckPass = this.regPass === this.repeatRegPass;
     },
 
     validateMessenger() {
@@ -123,31 +137,28 @@ export default {
         <form action="#" method="post">
           <fieldset class="fieldset-box">
             <div class="input-wrapper">
-              <input class="input-style" :class="{ 'input-error': isInvalidName, 'input-not-error': isValidName, }"
-                @input="validateUserName" v-model="userName" type="text" name="name" placeholder="Ваше імʼя" />
-              <button class="validate-btn" :class="{ 'valid': isValidName, 'unvalid': isInvalidName }"
-                @click.prevent="clearInputName"></button>
+              <input class="input-style" :class="classObjName" @input="validateUserName" v-model="userName" type="text"
+                name="name" placeholder="Ваше імʼя" />
+              <button class="validate-btn" :class="classObjName" @click.prevent="clearInputName"></button>
             </div>
             <div class="input-wrapper">
-              <input class="input-style" :class="{ 'input-error': isInvalidEmail, 'input-not-error': isValidEmail }"
-                @input="validateRegEmail" v-model="regEmail" type="email" name="email" placeholder="Ваш email" />
-              <button class="validate-btn" :class="{ 'valid': isValidEmail, 'unvalid': isInvalidEmail }"
-                @click.prevent="clearInputEmail"></button>
+              <input class="input-style" :class="classObjEmail" @input="validateRegEmail" v-model="regEmail" type="email"
+                name="email" placeholder="Ваш email" />
+              <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInputEmail"></button>
             </div>
             <div class="input-wrapper">
-              <input class="input-style" :class="{ 'input-error': isInvalidPass, 'input-not-error': isValidPass, 'password-text': passwordText }"
-                @input="validateRegPass" v-model="registrationPassword" :type="password" name="password"
-                placeholder="Ваш пароль" />
+              <input class="input-style" :class="[classObjPass, { 'password-text': passwordText }]" @input="validateRegPass"
+                v-model="regPass" :type="password" name="password" placeholder="Ваш пароль" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
-            <p class="password-error" v-if="isInvalidPass">Пароль має містити літери і символи</p>
+            <p class="password-error" v-if="!isValidPass && regPass">Пароль має містити літери і символи</p>
             <div class="input-wrapper">
-              <input class="input-style"
-                :class="{ 'input-error': isInvalidCheckPass, 'input-not-error': isValidCheckPass, 'password-text': passwordText }" @input="checkPassword"
-                v-model="repeatPassword" :type="password" name="check-password" placeholder="Повторіть пароль" />
+              <input class="input-style" :class="[classObjRepPass, { 'password-text': passwordText }]"
+                @input="checkPassword" v-model="repeatRegPass" :type="password" name="check-password"
+                placeholder="Повторіть пароль" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
-            <p class="check-password-error" v-if="isInvalidCheckPass">Паролі не співпадають</p>
+            <p class="check-password-error" v-if="!isValidCheckPass">Паролі не співпадають</p>
             <div class="choose-messenger">
               <p class="messenger-tilte">Оберіть спосіб звязку</p>
               <div class="communication-method">
@@ -158,7 +169,8 @@ export default {
                 <input class="input-style messenger-input"
                   :class="{ 'input-error': isInvalidMsg, 'input-not-error': isValidMsg }" @input="validateMessenger"
                   v-model="messengerLink" type="text" name="messenger-link" :placeholder="messengerPlaceholder" />
-                <button class="validate-btn" :class="{ 'valid': isValidMsg, 'unvalid': isInvalidMsg }" @click.prevent="clearInputMsg"></button>
+                <button class="validate-btn" :class="{ 'valid': isValidMsg, 'unvalid': isInvalidMsg }"
+                  @click.prevent="clearInputMsg"></button>
               </div>
             </div>
             <button class="btn-submit-reg-form" @click.prevent="" type="submit">
@@ -173,8 +185,9 @@ export default {
 
 <style>
 .registration-container {
-  position: absolute;
-  z-index: 10;
+  position: fixed;
+  z-index: 100;
+  overflow-y: auto;
   display: none;
   align-items: center;
   justify-content: center;
@@ -312,4 +325,5 @@ export default {
   .registration-icon {
     margin-bottom: 25px;
   }
-}</style>
+}
+</style>
