@@ -18,6 +18,7 @@ export default {
   computed: {
     classObjEmail() {
       if (this.loginEmail !== '') {
+        this.isValidEmail = this.validateFunction(this.emailPattern, this.loginEmail);
         return this.isValidEmail ? 'valid' : 'unvalid';
       }
     },
@@ -33,13 +34,9 @@ export default {
       this.password = (this.password === 'password') ? 'text' : 'password';
       this.passwordText = !this.passwordText;
     },
-
     validateFunction(pattern, inputElement) {
       return pattern.test(inputElement);
     },
-    validateLoginEmail() {
-      this.isValidEmail = this.validateFunction(this.emailPattern, this.loginEmail);
-    }
   },
 }
 </script>
@@ -57,7 +54,7 @@ export default {
       <form class="login-form" action="#" method="post">
         <fieldset class="fieldset-login-form">
           <div class="input-wrapper">
-            <input class="input-style" :class="classObjEmail" @input="validateLoginEmail" v-model="loginEmail"
+            <input class="input-style" :class="classObjEmail" v-model="loginEmail"
               type="email" name="loginEmail" placeholder="Ваш email" />
             <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput"></button>
           </div>
