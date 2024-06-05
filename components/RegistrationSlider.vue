@@ -2,37 +2,45 @@
 export default {
   data() {
     return {
-    //for practice
+      //for practice
       slides: [
         { cpa: "$25", revshare: '60%' },
         { cpa: "$30", revshare: '50%' },
         { cpa: "$20", revshare: '65%' }
       ],
-      currentIndex: 0,
-      currentPagination: 1,
 
+      currentIndex: 0,
+      currentPagination: 0,
     }
   },
+
   methods: {
+    showSlide() {
+      this.$refs.carousel.style.transform = `translateX(-${this.currentIndex * 220}px)`
+    },
+
     nextSlide() {
       if (this.currentIndex < this.slides.length - 1) {
         this.currentIndex++
         this.currentPagination++
-        this.$refs.carousel.style.transform = `translateX(-${this.currentIndex * 220}px)` 
+        this.showSlide()
       }
-    
     },
 
     prevSlide() {
       if (this.currentIndex > 0) {
         this.currentIndex--
         this.currentPagination--
-        this.$refs.carousel.style.transform = `translateX(-${this.currentIndex * 220}px)` 
+        this.showSlide()
       }
-      
     },
 
+    paginationNavigation(index) {
+      this.currentIndex = index;
+      this.showSlide()
+    }
   }
+
 }
 </script>
 <template>
@@ -40,7 +48,7 @@ export default {
     <h3 class="slider-title">Зможеш обрати <br /> свій варіант</h3>
     <div class="reg-slider-container">
       <div class="reg-slider-wrap" ref="carousel">
-        <div class="slider-element" v-for="(slide, index) in slides" :currentIndex="index">
+        <div class="slider-element" v-for="(slide, index) in slides" :key="index">
           <ul class="slider-list">
             <li class="slider-list-item">
               <div class="list-item-icon"></div>
@@ -70,7 +78,8 @@ export default {
     <div class="slider-pagination-wrap">
       <button class="slider-btn-prew slider-btn" @click="prevSlide"></button>
       <div class="pagination-dots">
-        <span class="pagination-dot" :class="{ 'dot-active': currentPagination === index }" v-for="index in slides.length" :currentPagination="index"></span>
+        <span class="pagination-dot" @click="paginationNavigation(index)" :class="{ 'dot-active': currentIndex == index }"
+          v-for="(dot, index) in slides.length" :key="index"></span>
       </div>
       <button class="slider-btn-next slider-btn" @click="nextSlide"></button>
     </div>
@@ -170,7 +179,6 @@ export default {
   justify-content: space-between;
   width: 96px;
   margin: 0 auto 108px;
-
 }
 
 .pagination-wrap {
@@ -188,6 +196,7 @@ export default {
   display: block;
   width: 8px;
   height: 8px;
+  cursor: pointer;
   background-color: #fff;
   border-radius: 50%;
 }
@@ -212,8 +221,9 @@ export default {
   transform: rotateY(180deg);
 }
 
-@media (width >= 375px) and (width <= 767px) {
+@media (width >=375px) and (width <=767px) {
   .registration-slider {
     display: none;
   }
-}</style>
+}
+</style>

@@ -4,12 +4,14 @@ export default {
     showLoginWindow() {
       this.$emit('showLoginWindow')
     },
+
     showRegWindow() {
       this.$emit('showRegWindow')
     }
   },
 }
 </script>
+
 <template>
   <header class="header">
     <div class="header-container">

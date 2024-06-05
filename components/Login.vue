@@ -3,37 +3,45 @@ export default {
   props: {
     loginActive: {
       type: Boolean,
+    },
+
+    user: {
+      type: Object,
     }
   },
+
   data() {
     return {
-      loginEmail: '',
-      loginPassword: '',
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: 'password',
       isValidEmail: false,
       passwordText: true,
     }
   },
+
   computed: {
     classObjEmail() {
-      if (this.loginEmail !== '') {
-        this.isValidEmail = this.validateFunction(this.emailPattern, this.loginEmail);
+      if (this.user.loginEmail !== '') {
+        this.isValidEmail = this.validateFunction(this.emailPattern, this.user.loginEmail);
         return this.isValidEmail ? 'valid' : 'unvalid';
       }
     },
   },
+
   methods: {
     closeForm() {
       this.$emit('closeForm')
     },
-    clearInput() {
-      this.loginEmail = ''
+
+    clearInput(value) {
+      this.user[value] = '';
     },
+
     showPassword() {
       this.password = (this.password === 'password') ? 'text' : 'password';
       this.passwordText = !this.passwordText;
     },
+
     validateFunction(pattern, inputElement) {
       return pattern.test(inputElement);
     },
@@ -54,16 +62,16 @@ export default {
       <form class="login-form" action="#" method="post">
         <fieldset class="fieldset-login-form">
           <div class="input-wrapper">
-            <input class="input-style" :class="classObjEmail" v-model="loginEmail"
-              type="email" name="loginEmail" placeholder="Ваш email" />
-            <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput"></button>
+            <input class="input-style" :class="classObjEmail" v-model="user.loginEmail" type="email" name="loginEmail"
+              placeholder="Ваш email" />
+            <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('loginEmail')"></button>
           </div>
           <div class="input-wrapper">
-            <input class="input-style" :class="{ 'password-text': passwordText }" v-model="loginPassword" :type="password"
-              name="loginPassword" placeholder="Ваш пароль" />
+            <input class="input-style" :class="{ 'password-text': passwordText }" v-model="user.loginPassword"
+              :type="password" name="loginPassword" placeholder="Ваш пароль" />
             <button @click.prevent="showPassword" class="show-password"></button>
           </div>
-          <button class="login-submit-btn" @submit.prevent type="submit">Війти</button>
+          <button class="login-submit-btn" @click.prevent>Війти</button>
         </fieldset>
       </form>
     </div>
@@ -74,12 +82,12 @@ export default {
 .login-form-container {
   position: fixed;
   z-index: 100;
-  overflow-y: auto;
   display: none;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   background-color: rgb(53 57 69 / 90%);
 }
 

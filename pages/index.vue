@@ -1,36 +1,63 @@
 <script>
 export default {
   name: 'IndexPage',
+
   data() {
     return {
+      user: {
+        loginEmail: '',
+        loginPassword: '',
+      },
+
+      newUser: {
+        userName: '',
+        regEmail: '',
+        regPass: '',
+        messengerLink: '',
+      },
+
+      repeatRegPass: '',
       regActive: false,
       loginActive: false,
     }
   },
+
   methods: {
     showLoginWindow() {
-      this.loginActive = true
-      document.body.classList.toggle('scroll-off')
+      this.loginActive = true;
+      document.body.classList.toggle('scroll-off');
     },
 
     showRegWindow() {
-      this.regActive = true
-      document.body.classList.toggle('scroll-off')
+      this.regActive = true;
+      document.body.classList.toggle('scroll-off');
     },
 
     closeForm() {
-      this.regActive = false
-      this.loginActive = false
-      this.loginPassword = '',
-      document.body.classList.toggle('scroll-off')
-    }
+      this.regActive = false;
+      this.loginActive = false;
+      document.body.classList.toggle('scroll-off');
+      this.repeatRegPass = '',
+      this.newUser = {
+        userName: '',
+        regEmail: '',
+        regPass: '',
+        messengerLink: '',
+      },
+      this.user = {
+        loginEmail: '',
+        loginPassword: '',
+      }
+    },
+
   },
 }
 </script>
+
 <template>
   <div class="container">
-    <Login :loginActive="loginActive" @closeForm="closeForm" />
-    <Registration :regActive="regActive" @closeForm="closeForm" />
+    <Login :loginActive="loginActive" @closeForm="closeForm" :user="user"/>
+    <Registration :regActive="regActive" @closeForm="closeForm" :newUser="newUser" :repeatRegPass="repeatRegPass"/>
     <TheHeader @showLoginWindow="showLoginWindow" @showRegWindow="showRegWindow" />
     <TheMain />
   </div>
@@ -39,7 +66,6 @@ export default {
 <style>
 body {
   width: 100%;
-  min-height: 100vh;
   background-color: var(--gray-800);
   background-image: url('./assets/img/bg.webp');
   background-repeat: no-repeat;
@@ -60,6 +86,7 @@ body {
 .active {
   display: flex;
 }
+
 .scroll-off {
   overflow: hidden;
 }
