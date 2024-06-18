@@ -8,10 +8,6 @@ export default {
     newUser: {
       type: Object,
     },
-
-    repeatRegPass: {
-      type: String
-    }
   },
 
   data() {
@@ -25,6 +21,8 @@ export default {
       isSkype: false,
       isValidMsg: false,
       passwordText: true,
+      userRegistered: false,
+      repeatRegPass: '',
       password: 'password',
       passwordPattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_-]{6,16}$/,
       userNamePattern: /^[а-яА-ЯїЇєЄіІґҐ]{2,16}$/,
@@ -72,7 +70,27 @@ export default {
 
   methods: {
     closeForm() {
-      this.$emit('closeForm')
+      this.repeatRegPass = '',
+        this.$emit('closeForm')
+    },
+
+    async toRegister() {
+      if (this.isValidName && this.isValidEmail && this.isValidPass && this.isValidCheckPass && this.isValidMsg) {
+        try {
+          await fetch('#', {
+            method: 'POST',
+            body: JSON.stringify(this.newUser),
+          });
+          this.userRegistered = true;
+          setTimeout(() => { 
+            this.userRegistered = false;
+            this.isValidName = false,
+            this.closeForm()
+          }, 2500)
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
 
     validationPattern(pattern, inputElement) {
@@ -111,6 +129,9 @@ export default {
       </div>
       <RegistrationSlider />
       <div class="registration-form">
+        <div class="user-registered" v-if="userRegistered">
+          <p class="user-registered-text">Дякуємо за реєстрацію!</p>
+        </div>
         <div class="registration-title-wrapper">
           <div class="registration-icon"></div>
           <p class="registration-form-title">Реєстрація</p>
@@ -124,18 +145,20 @@ export default {
             </div>
             <div class="input-wrapper">
               <input class="input-style" :class="classObjEmail" v-model="newUser.regEmail" type="email" name="email"
-                placeholder="Ваш email" />
+                placeholder="Ваш email" autocomplete="reg-email" />
               <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('regEmail')"></button>
             </div>
             <div class="input-wrapper">
-              <input class="input-style" :class="[classObjPass, { 'password-text': passwordText }]" v-model="newUser.regPass"
-                :type="password" name="password" placeholder="Ваш пароль" />
+              <input class="input-style" :class="[classObjPass, { 'password-text': passwordText }]"
+                v-model="newUser.regPass" :type="password" name="password" placeholder="Ваш пароль"
+                autocomplete="new-password" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
             <p class="password-error" v-if="!isValidPass && newUser.regPass">Пароль має містити літери і символи</p>
             <div class="input-wrapper">
               <input class="input-style" :class="[classObjRepPass, { 'password-text': passwordText }]"
-                v-model="repeatRegPass" :type="password" name="check-password" placeholder="Повторіть пароль" />
+                v-model="repeatRegPass" :type="password" name="check-password" placeholder="Повторіть пароль"
+                autocomplete="new-password" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
             <p class="check-password-error" v-if="!isValidCheckPass && repeatRegPass">Паролі не співпадають</p>
@@ -146,12 +169,12 @@ export default {
                   @click.prevent="chooseMessenger('telegram')"></button>
                 <button class="skype" :class="{ 'choose-msg': isSkype }"
                   @click.prevent="chooseMessenger('skype')"></button>
-                <input class="input-style messenger-input" :class="classObjMsg" v-model="newUser.messengerLink" type="text"
-                  name="messenger-link" :placeholder="messengerPlaceholder" />
+                <input class="input-style messenger-input" :class="classObjMsg" v-model="newUser.messengerLink"
+                  type="text" name="messenger-link" :placeholder="messengerPlaceholder" />
                 <button class="validate-btn" :class="classObjMsg" @click.prevent="clearInput('messengerLink')"></button>
               </div>
             </div>
-            <button class="btn-submit-reg-form" @click.prevent="" type="submit">
+            <button class="btn-submit-reg-form" @click.prevent="toRegister">
               Реєстрація
             </button>
           </fieldset>
@@ -179,6 +202,55 @@ export default {
   display: flex;
   max-width: 770px;
   border-radius: 25px;
+}
+
+.user-registered {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 51%;
+  height: 100%;
+  background-color: var(--green);
+  background-image: url('~assets/img/slider_bg_reg.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 104%;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  transform-origin: left;
+  animation: reg-animation 400ms linear both;
+
+}
+
+@keyframes reg-animation {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+
+}
+
+.user-registered-text {
+  font-size: 24px;
+  color: #fff;
+  animation: reg-animation-text 1500ms ease-in-out both;
+}
+
+@keyframes reg-animation-text {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .registration-form {
@@ -282,10 +354,20 @@ export default {
   background-color: rgb(255 199 55 / 75%);
 }
 
+@media (width >=768px) and (width <=1023px) {
+  .registration-form {
+    width: 360px;
+  }
+}
+
 @media (width >=375px) and (width <=767px) {
   .registration-wrapper {
     position: fixed;
     bottom: 10px;
+  }
+
+  .user-registered {
+    width: 100%;
   }
 
   .registration-form {

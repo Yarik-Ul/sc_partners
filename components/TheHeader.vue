@@ -1,12 +1,25 @@
 <script>
 export default {
+  props: {
+    userIsLogged: {
+      type: Boolean,
+    },
+    greetingUser: {
+      type: String,
+    }
+  },
+
   methods: {
     showLoginWindow() {
-      this.$emit('showLoginWindow')
+      this.$emit('showLoginWindow');
     },
 
     showRegWindow() {
-      this.$emit('showRegWindow')
+      this.$emit('showRegWindow');
+    },
+
+    userLogOut() {
+      this.$emit('userLogOut');
     }
   },
 }
@@ -18,9 +31,13 @@ export default {
       <div class="logo-wrapper">
         <a href="#"><img src="~assets/icons/logo.svg" alt="logo" /></a>
       </div>
-      <div class="header-btn">
+      <div class="header-btn" v-show="!userIsLogged">
         <button class="btn-login" @click="showLoginWindow">Вхід</button>
         <button class="btn-reg" @click="showRegWindow">Реєстрація</button>
+      </div>
+      <div class="log-out" v-if="userIsLogged">
+        <p>Вітаємо: {{ this.greetingUser }}</p>
+        <button @click="userLogOut" class="btn-login">Вихід</button>
       </div>
     </div>
   </header>
@@ -76,7 +93,7 @@ export default {
 .btn-reg {
   width: 106px;
   height: 40px;
-  margin-left: 15px;
+  margin-left: 14px;
   color: var(--gray-800);
   background-color: var(--yellow);
   border: none;
@@ -90,6 +107,15 @@ export default {
   color: var(--gray-700);
   background-color: var(--gray-100);
   border: 2px solid var(--gray-100);
+}
+
+.log-out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-self: flex-end;
+  margin-right: 14px;
 }
 
 @media (width >=375px) and (width <=767px) {

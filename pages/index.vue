@@ -15,8 +15,9 @@ export default {
         regPass: '',
         messengerLink: '',
       },
-
-      repeatRegPass: '',
+      greetingUser: '',
+      userIsLogged: false,
+      userRegistered: false,
       regActive: false,
       loginActive: false,
     }
@@ -37,28 +38,49 @@ export default {
       this.regActive = false;
       this.loginActive = false;
       document.body.classList.toggle('scroll-off');
-      this.repeatRegPass = '',
-      this.newUser = {
-        userName: '',
-        regEmail: '',
-        regPass: '',
-        messengerLink: '',
-      },
-      this.user = {
-        loginEmail: '',
-        loginPassword: '',
-      }
+        this.newUser = {
+          userName: '',
+          regEmail: '',
+          regPass: '',
+          messengerLink: '',
+        },
+        this.user = {
+          loginEmail: '',
+          loginPassword: '',
+        }
     },
 
+    hideLoginBtn() {
+      this.userIsLogged = true;
+      this.greetingUser = this.user.loginEmail;
+    },
+    userLogOut() {
+      this.userIsLogged = false;
+    },
   },
+
 }
 </script>
 
 <template>
   <div class="container">
-    <Login :loginActive="loginActive" @closeForm="closeForm" :user="user"/>
-    <Registration :regActive="regActive" @closeForm="closeForm" :newUser="newUser" :repeatRegPass="repeatRegPass"/>
-    <TheHeader @showLoginWindow="showLoginWindow" @showRegWindow="showRegWindow" />
+    <Login  
+      @closeForm="closeForm" 
+      @hideLoginBtn="hideLoginBtn"
+      :loginActive="loginActive" 
+      :user="user"
+      :userIsLogged="userIsLogged" />
+    <Registration 
+      @closeForm="closeForm" 
+      :regActive="regActive"
+      :userRegistered="userRegistered" 
+      :newUser="newUser" />
+    <TheHeader 
+      @showLoginWindow="showLoginWindow" 
+      @showRegWindow="showRegWindow" 
+      @userLogOut="userLogOut"
+      :userIsLogged="userIsLogged" 
+      :greetingUser="greetingUser" />
     <TheMain />
   </div>
 </template>

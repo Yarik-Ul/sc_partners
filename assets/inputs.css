@@ -100,7 +100,6 @@
   border: none;
 }
 
-
 /* END validation icons */
 
 /* messenger */
@@ -137,6 +136,7 @@
 .messenger-input {
   position: relative;
   width: 185px;
+  height: 48px;
 }
 
 /* messenger */

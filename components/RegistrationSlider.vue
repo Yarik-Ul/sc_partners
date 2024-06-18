@@ -221,6 +221,12 @@ export default {
   transform: rotateY(180deg);
 }
 
+@media (width >=768px) and (width <=1023px) {
+  .registration-slider {
+    width: 360px;
+  }
+}
+
 @media (width >=375px) and (width <=767px) {
   .registration-slider {
     display: none;

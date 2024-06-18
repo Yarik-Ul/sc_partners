@@ -7,6 +7,10 @@ export default {
 
     user: {
       type: Object,
+    },
+
+    userIsLogged: {
+      type: Boolean,
     }
   },
 
@@ -15,6 +19,7 @@ export default {
       emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: 'password',
       isValidEmail: false,
+      isValidLogPass: false,
       passwordText: true,
     }
   },
@@ -26,11 +31,18 @@ export default {
         return this.isValidEmail ? 'valid' : 'unvalid';
       }
     },
+
+    classObjLogPass() {
+      if (this.user.loginPassword !== '') {
+        this.isValidLogPass = this.user.loginPassword.length >= 6;
+        return this.isValidLogPass ? 'valid' : 'unvalid';
+      }
+    }
   },
 
   methods: {
     closeForm() {
-      this.$emit('closeForm')
+      this.$emit('closeForm');
     },
 
     clearInput(value) {
@@ -45,6 +57,21 @@ export default {
     validateFunction(pattern, inputElement) {
       return pattern.test(inputElement);
     },
+
+    async toLogIn() {
+      if (this.isValidEmail && this.isValidLogPass) {
+        try {
+          this.$emit('hideLoginBtn')
+          await fetch('#', {
+            method: 'POST',
+            body: JSON.stringify(this.user),
+          })
+        } catch (error) {
+          console.log(error);
+        }
+
+      }
+    }
   },
 }
 </script>
@@ -52,6 +79,7 @@ export default {
 <template>
   <div class="login-form-container" :class="{ 'active': loginActive }">
     <div class="login-form-wrapper">
+      <div class="login-ok" v-show="userIsLogged"><span class="hour-line"></span><span class="minute-line"></span></div>
       <div class="close-form" @click="closeForm">
         <span class="close-line"></span>
       </div>
@@ -63,15 +91,16 @@ export default {
         <fieldset class="fieldset-login-form">
           <div class="input-wrapper">
             <input class="input-style" :class="classObjEmail" v-model="user.loginEmail" type="email" name="loginEmail"
-              placeholder="Ваш email" />
+              placeholder="Ваш email" autocomplete="login-email" />
             <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('loginEmail')"></button>
           </div>
           <div class="input-wrapper">
-            <input class="input-style" :class="{ 'password-text': passwordText }" v-model="user.loginPassword"
-              :type="password" name="loginPassword" placeholder="Ваш пароль" />
+            <input class="input-style" :class="[classObjLogPass, { 'password-text': passwordText }]"
+              v-model="user.loginPassword" :type="password" name="loginPassword" placeholder="Ваш пароль"
+              autocomplete="current-password" />
             <button @click.prevent="showPassword" class="show-password"></button>
           </div>
-          <button class="login-submit-btn" @click.prevent>Війти</button>
+          <button class="login-submit-btn" @click.prevent="toLogIn">Війти</button>
         </fieldset>
       </form>
     </div>
@@ -99,10 +128,93 @@ export default {
   border-radius: 25px;
 }
 
+.login-ok {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--gray-700);
+  border-radius: 25px;
+
+}
+
+.hour-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 80px;
+  height: 16px;
+  background-color: var(--green);
+  border-radius: 8px;
+  transform: rotate(180deg);
+  transform-origin: left;
+  animation: hour 2s linear 0.3s both;
+}
+
+.minute-line {
+  position: absolute;
+  top: 51%;
+  left: 49%;
+  display: block;
+  width: 120px;
+  height: 10px;
+  background-color: var(--green);
+  border-radius: 5px;
+  transform: rotate(270deg);
+  transform-origin: left;
+  animation: minutes 2s linear 0.3s both;
+}
+
+@keyframes minutes {
+  0% {
+   transform: rotate(270deg);
+  
+  }
+
+  50% {
+    transform: rotate(630deg);
+  }
+ 
+   90% {
+    transform: rotate(1020deg);
+    scale: 1;
+  }
+
+  100% {
+    transform: rotate(1020deg);
+    scale: 1.3;
+  }
+ 
+}
+
+@keyframes hour {
+  0% {
+   transform: rotate(180deg);
+  }
+
+  80% {
+    transform: rotate(240deg);
+    scale: 1;
+  }
+  
+  100% {
+    transform: rotate(240deg);
+    scale: 1.3;
+  }
+ 
+}
+
 .close-form {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 15;
   display: flex;
   align-items: center;
   justify-content: center;
