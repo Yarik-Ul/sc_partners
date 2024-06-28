@@ -262,7 +262,7 @@
     background-size: 25px;
   }
 
-  .information-text-block {
+  .information-item-text-block {
     gap: 5px;
     width: 245px;
   }
