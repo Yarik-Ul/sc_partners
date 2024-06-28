@@ -8,7 +8,6 @@ export default {
         loginEmail: '',
         loginPassword: '',
       },
-
       newUser: {
         userName: '',
         regEmail: '',
@@ -38,12 +37,12 @@ export default {
       this.regActive = false;
       this.loginActive = false;
       document.body.classList.toggle('scroll-off');
-        this.newUser = {
-          userName: '',
-          regEmail: '',
-          regPass: '',
-          messengerLink: '',
-        },
+      this.newUser = {
+        userName: '',
+        regEmail: '',
+        regPass: '',
+        messengerLink: '',
+      },
         this.user = {
           loginEmail: '',
           loginPassword: '',
@@ -64,15 +63,15 @@ export default {
 
 <template>
   <div class="container">
-    <Login  
+    <Login 
       @closeForm="closeForm" 
-      @hideLoginBtn="hideLoginBtn"
+      @hideLoginBtn="hideLoginBtn" 
       :loginActive="loginActive" 
       :user="user"
       :userIsLogged="userIsLogged" />
     <Registration 
       @closeForm="closeForm" 
-      :regActive="regActive"
+      :regActive="regActive" 
       :userRegistered="userRegistered" 
       :newUser="newUser" />
     <TheHeader 

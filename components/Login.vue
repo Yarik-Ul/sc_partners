@@ -65,11 +65,10 @@ export default {
           await fetch('#', {
             method: 'POST',
             body: JSON.stringify(this.user),
-          })
+          });
         } catch (error) {
           console.log(error);
         }
-
       }
     }
   },
@@ -79,7 +78,10 @@ export default {
 <template>
   <div class="login-form-container" :class="{ 'active': loginActive }">
     <div class="login-form-wrapper">
-      <div class="login-ok" v-show="userIsLogged"><span class="hour-line"></span><span class="minute-line"></span></div>
+      <div class="login-success-window" v-show="userIsLogged">
+        <span class="hour-line"></span>
+        <span class="minute-line"></span>
+      </div>
       <div class="close-form" @click="closeForm">
         <span class="close-line"></span>
       </div>
@@ -90,13 +92,22 @@ export default {
       <form class="login-form" action="#" method="post">
         <fieldset class="fieldset-login-form">
           <div class="input-wrapper">
-            <input class="input-style" :class="classObjEmail" v-model="user.loginEmail" type="email" name="loginEmail"
-              placeholder="Ваш email" autocomplete="login-email" />
-            <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('loginEmail')"></button>
+            <input 
+              :class="classObjEmail" 
+              v-model="user.loginEmail" 
+              type="email" 
+              name="loginEmail"
+              placeholder="Ваш email" 
+              autocomplete="login-email" />
+            <button :class="['validate-btn', classObjEmail]" @click.prevent="clearInput('loginEmail')"></button>
           </div>
           <div class="input-wrapper">
-            <input class="input-style" :class="[classObjLogPass, { 'password-text': passwordText }]"
-              v-model="user.loginPassword" :type="password" name="loginPassword" placeholder="Ваш пароль"
+            <input 
+              :class="[classObjLogPass, { 'password-text': passwordText }]"
+              v-model="user.loginPassword" 
+              :type="password" 
+              name="loginPassword" 
+              placeholder="Ваш пароль"
               autocomplete="current-password" />
             <button @click.prevent="showPassword" class="show-password"></button>
           </div>
@@ -128,7 +139,7 @@ export default {
   border-radius: 25px;
 }
 
-.login-ok {
+.login-success-window {
   position: absolute;
   top: 0;
   right: 0;

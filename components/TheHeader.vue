@@ -51,7 +51,7 @@ export default {
 .header-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  place-items: center center;
+  place-items: center;
   max-width: 1440px;
   padding: 24px 0;
   margin: 0 auto;

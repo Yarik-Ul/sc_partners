@@ -35,43 +35,47 @@ export default {
     classObjName() {
       if (this.newUser.userName !== '') {
         this.isValidName = this.validationPattern(this.userNamePattern, this.newUser.userName);
-        return this.isValidName ? 'valid' : 'unvalid'
+        return this.isValidName ? 'valid' : 'unvalid';
       }
     },
 
     classObjEmail() {
       if (this.newUser.regEmail !== '') {
         this.isValidEmail = this.validationPattern(this.emailPattern, this.newUser.regEmail);
-        return this.isValidEmail ? 'valid' : 'unvalid'
+        return this.isValidEmail ? 'valid' : 'unvalid';
       }
     },
 
     classObjPass() {
       if (this.newUser.regPass !== '') {
         this.isValidPass = this.validationPattern(this.passwordPattern, this.newUser.regPass);
-        return this.isValidPass ? 'valid' : 'unvalid'
+        return this.isValidPass ? 'valid' : 'unvalid';
       }
     },
 
     classObjRepPass() {
       if (this.repeatRegPass !== '') {
         this.isValidCheckPass = this.newUser.regPass === this.repeatRegPass;
-        return this.isValidCheckPass ? 'valid' : 'unvalid'
+        return this.isValidCheckPass ? 'valid' : 'unvalid';
       }
     },
 
     classObjMsg() {
       if (this.newUser.messengerLink !== '') {
         this.isValidMsg = this.validationPattern(this.messengerPattern, this.newUser.messengerLink);
-        return this.isValidMsg ? 'valid' : 'unvalid'
+        return this.isValidMsg ? 'valid' : 'unvalid';
       }
     }
   },
 
   methods: {
+    validationPattern(pattern, inputElement) {
+      return pattern.test(inputElement);
+    },
+    
     closeForm() {
       this.repeatRegPass = '',
-        this.$emit('closeForm')
+        this.$emit('closeForm');
     },
 
     async toRegister() {
@@ -82,19 +86,18 @@ export default {
             body: JSON.stringify(this.newUser),
           });
           this.userRegistered = true;
-          setTimeout(() => { 
+          setTimeout(() => {
             this.userRegistered = false;
             this.isValidName = false,
-            this.closeForm()
+            this.isValidEmail = false,
+            this.isValidPass = false,
+            this.isValidCheckPass = false,
+            this.closeForm();
           }, 2500)
         } catch (error) {
           console.log(error);
         }
       }
-    },
-
-    validationPattern(pattern, inputElement) {
-      return pattern.test(inputElement);
     },
 
     showPassword() {
@@ -139,25 +142,42 @@ export default {
         <form action="#" method="post">
           <fieldset class="fieldset-box">
             <div class="input-wrapper">
-              <input class="input-style" :class="classObjName" v-model="newUser.userName" type="text" name="name"
+              <input 
+                :class="classObjName" 
+                v-model="newUser.userName" 
+                type="text" 
+                name="name"
                 placeholder="Ваше імʼя" />
               <button class="validate-btn" :class="classObjName" @click.prevent="clearInput('userName')"></button>
             </div>
             <div class="input-wrapper">
-              <input class="input-style" :class="classObjEmail" v-model="newUser.regEmail" type="email" name="email"
-                placeholder="Ваш email" autocomplete="reg-email" />
+              <input 
+                :class="classObjEmail" 
+                v-model="newUser.regEmail" 
+                type="email" 
+                name="email"
+                placeholder="Ваш email" 
+                autocomplete="reg-email" />
               <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('regEmail')"></button>
             </div>
             <div class="input-wrapper">
-              <input class="input-style" :class="[classObjPass, { 'password-text': passwordText }]"
-                v-model="newUser.regPass" :type="password" name="password" placeholder="Ваш пароль"
+              <input 
+                :class="[classObjPass, { 'password-text': passwordText }]"
+                v-model="newUser.regPass" 
+                :type="password" 
+                name="password" 
+                placeholder="Ваш пароль"
                 autocomplete="new-password" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
             <p class="password-error" v-if="!isValidPass && newUser.regPass">Пароль має містити літери і символи</p>
             <div class="input-wrapper">
-              <input class="input-style" :class="[classObjRepPass, { 'password-text': passwordText }]"
-                v-model="repeatRegPass" :type="password" name="check-password" placeholder="Повторіть пароль"
+              <input 
+                :class="[classObjRepPass, { 'password-text': passwordText }]"
+                v-model="repeatRegPass" 
+                :type="password" 
+                name="check-password" 
+                placeholder="Повторіть пароль"
                 autocomplete="new-password" />
               <button class="show-password" @click.prevent="showPassword"></button>
             </div>
@@ -169,8 +189,13 @@ export default {
                   @click.prevent="chooseMessenger('telegram')"></button>
                 <button class="skype" :class="{ 'choose-msg': isSkype }"
                   @click.prevent="chooseMessenger('skype')"></button>
-                <input class="input-style messenger-input" :class="classObjMsg" v-model="newUser.messengerLink"
-                  type="text" name="messenger-link" :placeholder="messengerPlaceholder" />
+                <input 
+                  class="messenger-input" 
+                  :class="classObjMsg" 
+                  v-model="newUser.messengerLink"
+                  type="text" 
+                  name="messenger-link" 
+                  :placeholder="messengerPlaceholder" />
                 <button class="validate-btn" :class="classObjMsg" @click.prevent="clearInput('messengerLink')"></button>
               </div>
             </div>

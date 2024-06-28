@@ -8,7 +8,8 @@
   margin-bottom: 10px;
 }
 
-.input-style {
+.communication-method input,
+.input-wrapper input {
   width: 100%;
   height: 100%;
   padding: 16px;
@@ -22,15 +23,15 @@
   border-radius: 70px;
 }
 
-.input-style:hover {
+.input-wrapper input:hover {
   border-color: var(--gray-500);
 }
 
-.input-style:focus {
+.input-wrapper input:focus {
   border-color: var(--yellow);
 }
 
-.input-style::placeholder {
+.input-wrapper input::placeholder {
   font-family: var(--gilroy);
   font-size: 14px;
   font-weight: 700;
@@ -39,7 +40,7 @@
   cursor: pointer;
 }
 
-.password-text {
+.password-text.valid {
   color: var(--gray-500);
 }
 
@@ -76,12 +77,12 @@
   background-position: center;
 }
 
-.input-style.unvalid {
+.input-wrapper input.unvalid {
   color: var(--orange);
   border-color: var(--orange);
 }
 
-.input-style.valid {
+.input-wrapper input.valid {
   border-color: var(--green);
 }
 

@@ -14,12 +14,8 @@
           відстані одного повідомлення в месенджері або дзвінка, адже ми
           працюємо поряд з вами.
         </p>
-        <div class="stars" filled>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
+        <div class="stars">
+          <span v-for="star in 5" :key="star"></span>
         </div>
       </section>
       <section class="information">
@@ -27,7 +23,7 @@
         <ul class="information-list">
           <li class="information-item">
             <div class="information-item-icon megaphone"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title">
                 Круті акції, призи та прибуткова бонусна програма
               </h3>
@@ -38,7 +34,7 @@
           </li>
           <li class="information-item">
             <div class="information-item-icon smile"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title">
                 Особлива підтримка<br />
                 для кожного 24/7
@@ -50,7 +46,7 @@
           </li>
           <li class="information-item">
             <div class="information-item-icon graph"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title br">Детальна статистика</h3>
               <p class="information-item-disc">
                 Миттєве оновлення, зрозуміла система відображення статистики
@@ -131,18 +127,10 @@
   gap: 25px;
 }
 
-.icon-star {
-  position: relative;
+.stars span {
   display: block;
   width: 15px;
   height: 15px;
-}
-
-.icon-star::after {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  content: '';
   background-image: url('~assets/icons/icon_star.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -205,7 +193,7 @@
   background-image: url('~assets/icons/icon_graph.svg');
 }
 
-.information-text-block {
+.information-item-text-block {
   display: flex;
   flex-direction: column;
   gap: 25px;
