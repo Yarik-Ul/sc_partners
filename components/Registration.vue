@@ -1,166 +1,205 @@
+<script>
+export default {
+  props: {
+    regActive: {
+      type: Boolean,
+    },
+
+    newUser: {
+      type: Object,
+    },
+  },
+
+  data() {
+    return {
+      messengerPlaceholder: '@телеграм_адреса',
+      isValidName: false,
+      isValidEmail: false,
+      isValidPass: false,
+      isValidCheckPass: true,
+      isTelegram: true,
+      isSkype: false,
+      isValidMsg: false,
+      passwordText: true,
+      userRegistered: false,
+      repeatRegPass: '',
+      password: 'password',
+      passwordPattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_-]{6,16}$/,
+      userNamePattern: /^[а-яА-ЯїЇєЄіІґҐ]{2,16}$/,
+      emailPattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      messengerPattern: /^@[a-zA-Z\d]{2,}$/,
+    }
+  },
+
+  computed: {
+    classObjName() {
+      if (this.newUser.userName !== '') {
+        this.isValidName = this.validationPattern(this.userNamePattern, this.newUser.userName);
+        return this.isValidName ? 'valid' : 'unvalid';
+      }
+    },
+
+    classObjEmail() {
+      if (this.newUser.regEmail !== '') {
+        this.isValidEmail = this.validationPattern(this.emailPattern, this.newUser.regEmail);
+        return this.isValidEmail ? 'valid' : 'unvalid';
+      }
+    },
+
+    classObjPass() {
+      if (this.newUser.regPass !== '') {
+        this.isValidPass = this.validationPattern(this.passwordPattern, this.newUser.regPass);
+        return this.isValidPass ? 'valid' : 'unvalid';
+      }
+    },
+
+    classObjRepPass() {
+      if (this.repeatRegPass !== '') {
+        this.isValidCheckPass = this.newUser.regPass === this.repeatRegPass;
+        return this.isValidCheckPass ? 'valid' : 'unvalid';
+      }
+    },
+
+    classObjMsg() {
+      if (this.newUser.messengerLink !== '') {
+        this.isValidMsg = this.validationPattern(this.messengerPattern, this.newUser.messengerLink);
+        return this.isValidMsg ? 'valid' : 'unvalid';
+      }
+    }
+  },
+
+  methods: {
+    validationPattern(pattern, inputElement) {
+      return pattern.test(inputElement);
+    },
+    
+    closeForm() {
+      this.repeatRegPass = '',
+        this.$emit('closeForm');
+    },
+
+    async toRegister() {
+      if (this.isValidName && this.isValidEmail && this.isValidPass && this.isValidCheckPass && this.isValidMsg) {
+        try {
+          await fetch('#', {
+            method: 'POST',
+            body: JSON.stringify(this.newUser),
+          });
+          this.userRegistered = true;
+          setTimeout(() => {
+            this.userRegistered = false;
+            this.isValidName = false,
+            this.isValidEmail = false,
+            this.isValidPass = false,
+            this.isValidCheckPass = false,
+            this.closeForm();
+          }, 2500)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
+    showPassword() {
+      this.password = (this.password === 'password') ? 'text' : 'password';
+      this.passwordText = !this.passwordText;
+    },
+
+    clearInput(value) {
+      this.newUser[value] = '';
+    },
+
+    chooseMessenger(messenger) {
+      if (messenger === 'telegram') {
+        this.isTelegram = true;
+        this.isSkype = false;
+        this.messengerPlaceholder = '@телеграм_адреса';
+      } else if (messenger === 'skype') {
+        this.isSkype = true;
+        this.isTelegram = false;
+        this.messengerPlaceholder = 'Skype';
+      }
+    },
+  },
+}
+</script>
+
 <template>
-  <div class="registration-container">
+  <div class="registration-container" :class="{ 'active': regActive }">
     <div class="registration-wrapper">
-      <div class="close-form close-registration">
+      <div class="close-form" @click="closeForm">
         <span class="close-line"></span>
       </div>
-      <div class="registration-slider">
-        <div class="reg-slider-container">
-          <div class="reg-slider-wrap">
-            <div class="slider-element">
-              <h3 class="slider-element-title">Зможеш обрати свій варіант</h3>
-              <ul class="slider-list">
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">CPA</h4>
-                    <p class="list-item-disc">$25 і вище</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">REVSHARE</h4>
-                    <p class="list-item-disc">Піднімай до 60%</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">Гібрід</h4>
-                    <p class="list-item-disc">Зробимо як скажеш</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="slider-element">
-              <h3 class="slider-element-title">Lorem ipsum dolor sit.</h3>
-              <ul class="slider-list">
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">Lorem.</h4>
-                    <p class="list-item-disc">$25 Lorem, ipsum.</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">REVSHARE</h4>
-                    <p class="list-item-disc">Lorem, ipsum. 60%</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">Гібрід</h4>
-                    <p class="list-item-disc">Lorem, ipsum dolor.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="slider-element">
-              <h3 class="slider-element-title">Lorem ipsum dolor sit.</h3>
-              <ul class="slider-list">
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">CPA</h4>
-                    <p class="list-item-disc">$25 Lorem, ipsum.</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">REVSHARE</h4>
-                    <p class="list-item-disc">Lorem, ipsum. 60%</p>
-                  </div>
-                </li>
-                <li class="slider-list-item">
-                  <div class="list-item-icon"></div>
-                  <div class="list-item-text">
-                    <h4 class="list-item-title">Lorem.</h4>
-                    <p class="list-item-disc">Lorem, ipsum dolor.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="slider-pagination-wrap">
-          <button class="slider-btn-prew slider-btn"></button>
-          <div class="pagination-dots">
-            <span class="pagination-dot"></span>
-            <span class="pagination-dot"></span>
-            <span class="pagination-dot"></span>
-          </div>
-          <button class="slider-btn-next slider-btn"></button>
-        </div>
-      </div>
+      <RegistrationSlider />
       <div class="registration-form">
+        <div class="user-registered" v-if="userRegistered">
+          <p class="user-registered-text">Дякуємо за реєстрацію!</p>
+        </div>
         <div class="registration-title-wrapper">
           <div class="registration-icon"></div>
           <p class="registration-form-title">Реєстрація</p>
         </div>
-
         <form action="#" method="post">
           <fieldset class="fieldset-box">
-            <input
-                class="input-style"
-                type="text"
+            <div class="input-wrapper">
+              <input 
+                :class="classObjName" 
+                v-model="newUser.userName" 
+                type="text" 
                 name="name"
-                id="name"
-                placeholder="Ваше імʼя"
-              />
-            <label for="name"><span class="name-icon"></span></label>
-            <input
-                class="input-style"
-                type="email"
+                placeholder="Ваше імʼя" />
+              <button class="validate-btn" :class="classObjName" @click.prevent="clearInput('userName')"></button>
+            </div>
+            <div class="input-wrapper">
+              <input 
+                :class="classObjEmail" 
+                v-model="newUser.regEmail" 
+                type="email" 
                 name="email"
-                id="email"
-                placeholder="Ваш email"
-              />
-            <label for="email"><span class="email-icon"></span></label>
-            <input
-                class="input-style"
-                type="password"
-                name="password"
-                id="password"
+                placeholder="Ваш email" 
+                autocomplete="reg-email" />
+              <button class="validate-btn" :class="classObjEmail" @click.prevent="clearInput('regEmail')"></button>
+            </div>
+            <div class="input-wrapper">
+              <input 
+                :class="[classObjPass, { 'password-text': passwordText }]"
+                v-model="newUser.regPass" 
+                :type="password" 
+                name="password" 
                 placeholder="Ваш пароль"
-              />
-            <label for="password">
-              <p class="password-error">Пароль має містити літери і символи</p>
-              <span class="show-password"></span>
-            </label>
-            <input
-                class="input-style"
-                type="password"
-                name="check-password"
-                id="check-password"
+                autocomplete="new-password" />
+              <button class="show-password" @click.prevent="showPassword"></button>
+            </div>
+            <p class="password-error" v-if="!isValidPass && newUser.regPass">Пароль має містити літери і символи</p>
+            <div class="input-wrapper">
+              <input 
+                :class="[classObjRepPass, { 'password-text': passwordText }]"
+                v-model="repeatRegPass" 
+                :type="password" 
+                name="check-password" 
                 placeholder="Повторіть пароль"
-              />
-            <label for="check-password">
-              <p class="check-password-error">Паролі не співпадають</p>
-              <span class="show-password"></span>
-            </label>
+                autocomplete="new-password" />
+              <button class="show-password" @click.prevent="showPassword"></button>
+            </div>
+            <p class="check-password-error" v-if="!isValidCheckPass && repeatRegPass">Паролі не співпадають</p>
             <div class="choose-messenger">
               <p class="messenger-tilte">Оберіть спосіб звязку</p>
               <div class="communication-method">
-                  <input type="radio" id="telegram" name="messenger" value="telegram" checked>
-                  <label for="telegram" class="telegram"></label>
-                  <input type="radio" id="skype" name="messenger" value="skype" >
-                  <label for="skype" class="skype"></label>
-                  <input
-                    type="text"
-                    id="messenger-link"
-                    name="messenger-link"
-                    class="input-style messenger-input"
-                    placeholder="@телеграм_адреса"
-                  />
-                <label for="messenger-link"><span class="messenger-icon"></span></label>
+                <button class="telegram" :class="{ 'choose-msg': isTelegram }"
+                  @click.prevent="chooseMessenger('telegram')"></button>
+                <button class="skype" :class="{ 'choose-msg': isSkype }"
+                  @click.prevent="chooseMessenger('skype')"></button>
+                <input 
+                  class="messenger-input" 
+                  :class="classObjMsg" 
+                  v-model="newUser.messengerLink"
+                  type="text" 
+                  name="messenger-link" 
+                  :placeholder="messengerPlaceholder" />
+                <button class="validate-btn" :class="classObjMsg" @click.prevent="clearInput('messengerLink')"></button>
               </div>
             </div>
-            <button type="submit" class="btn-submit-reg-form">
+            <button class="btn-submit-reg-form" @click.prevent="toRegister">
               Реєстрація
             </button>
           </fieldset>
@@ -172,192 +211,126 @@
 
 <style>
 .registration-container {
-  position: absolute;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(53, 57, 69, 0.9);
+  position: fixed;
+  z-index: 100;
   display: none;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgb(53 57 69 / 90%);
 }
+
 .registration-wrapper {
   position: relative;
-  max-width: 770px;
   display: flex;
+  max-width: 770px;
   border-radius: 25px;
 }
-.registration-slider {
-  width: 385px;
-  background-color: var(--green);
-  background-image: url('~assets/img/slider_bg.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  border-bottom-left-radius: 25px;
-  border-top-left-radius: 25px;
-}
-.reg-slider-container {
-  width: 220px;
-  height: 330px;
-  margin: 65px 0 82px 53px;
-  position: relative;
-  overflow: hidden;
-}
-.reg-slider-wrap {
+
+.user-registered {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
+  z-index: 14;
   display: flex;
-  transition: 500ms ease;
-}
-.slider-element {
-  width: 220px;
-}
-.slider-element-title {
-  font-family: var(--gilroy);
-  font-size: 25px;
-  font-weight: 400;
-  line-height: 40px;
-  color: var(--gray-100);
-  margin-bottom: 65px;
-}
-.slider-list {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.slider-list-item {
-  display: flex;
-}
-.list-item-icon {
-  width: 45px;
-  height: 45px;
-  background-color: #ffffff33;
-  border-radius: 50%;
-  position: relative;
-  margin-right: 25px;
-}
-.list-item-icon::after {
-  content: '';
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-image: url('~assets/icons/line.svg');
-}
-.list-item-title {
-  font-family: var(--gilroy);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
-  color: var(--gray-100);
-}
-.list-item-disc {
-  font-family: var(--roboto);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px;
-  color: var(--gray-100);
-}
-
-.slider-pagination-wrap {
-  margin: 0 auto;
-  width: 96px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 107px;
-}
-.pagination-wrap {
-  display: flex;
-}
-.pagination-dots {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-.pagination-dot {
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #fff;
-  cursor: pointer;
-}
-.dot-active {
-  background-color: #FFD166;
-;
-}
-.slider-btn-prew,
-.slider-btn-next {
-  width: 16px;
-  height: 16px;
-  background-color: transparent;
-  background-image: url('~assets/icons/icon_arrow.svg');
+  justify-content: center;
+  width: 51%;
+  height: 100%;
+  background-color: var(--green);
+  background-image: url('~assets/img/slider_bg_reg.webp');
   background-repeat: no-repeat;
   background-position: center;
-  border: none;
-  cursor: pointer;
+  background-size: 104%;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  transform-origin: left;
+  animation: reg-animation 400ms linear both;
+
 }
-.slider-btn-next {
-  transform: rotateY(180deg);
+
+@keyframes reg-animation {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+
+}
+
+.user-registered-text {
+  font-size: 24px;
+  color: #fff;
+  animation: reg-animation-text 1500ms ease-in-out both;
+}
+
+@keyframes reg-animation-text {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .registration-form {
-  width: 385px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 385px;
+  padding: 60px 45px 45px;
   background-color: var(--gray-700);
-  border-bottom-right-radius: 25px;
   border-top-right-radius: 25px;
-  padding: 25px 30px;
+  border-bottom-right-radius: 25px;
 }
+
 .registration-title-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .registration-icon {
   width: 45px;
   height: 45px;
-  border-radius: 15px;
+  margin-bottom: 10px;
   background-color: var(--green);
   background-image: url('~assets/icons/icon_user.svg');
-  background-position: center;
   background-repeat: no-repeat;
-  margin-bottom: 10px;
+  background-position: center;
+  border-radius: 15px;
 }
+
 .registration-form-title {
+  margin-bottom: 25px;
   font-family: var(--gilroy);
   font-size: 25px;
   font-weight: 700;
   line-height: 25px;
   color: #fff;
-  margin-bottom: 25px;
 }
+
 .fieldset-box {
   position: relative;
   display: flex;
   flex-direction: column;
 }
-.password-error, .check-password-error {
-  display: none;
-font-family: var(--poppins);
-color: var(--orange);
-font-size: 10px;
-font-weight: 400;
-line-height: 12px;
-margin: -5px 0 10px 0;
-padding-left: 16px;
-}
-.error {
-  display: block;
+
+.password-error,
+.check-password-error {
+  padding-left: 16px;
+  margin: -5px 0 10px;
+  font-family: var(--poppins);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: var(--orange);
 }
 
 .choose-messenger {
@@ -365,52 +338,69 @@ padding-left: 16px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 15px;
   padding-top: 15px;
+  padding-bottom: 15px;
 }
+
 .messenger-tilte {
+  margin-bottom: 10px;
   font-family: var(--roboto);
   font-size: 12px;
   font-weight: 700;
   line-height: 12px;
   color: var(--gray-400);
   text-transform: uppercase;
-  margin-bottom: 10px;
 }
 
 .communication-method {
+  position: relative;
   display: flex;
-  width: 295px;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  width: 295px;
 }
 
 .btn-submit-reg-form {
   padding: 12px 16px;
-  border-radius: 90px;
+  margin: 0 auto;
   font-family: var(--gilroy);
   font-weight: 700;
   line-height: 16px;
+  color: var(--gray-800);
   cursor: pointer;
   background-color: var(--yellow);
-  color: var(--gray-800);
   border: none;
+  border-radius: 90px;
   transition: background-color 300ms ease;
-  margin: 0 auto;
-}
-.btn-submit-reg-form:hover {
-  background-color: rgba(255, 199, 55, 0.75);
 }
 
-@media (min-width: 375px) and (max-width: 767px) {
-  .registration-slider {
-    display: none;
+.btn-submit-reg-form:hover {
+  background-color: rgb(255 199 55 / 75%);
+}
+
+@media (width >=768px) and (width <=1023px) {
+  .registration-form {
+    width: 360px;
   }
+}
+
+@media (width >=375px) and (width <=767px) {
+  .registration-wrapper {
+    position: fixed;
+    bottom: 10px;
+  }
+
+  .user-registered {
+    width: 100%;
+  }
+
   .registration-form {
     max-width: 355px;
+    padding: 25px 30px;
     border-radius: 25px;
   }
+
   .registration-title-wrapper {
     flex-direction: row;
     gap: 10px;

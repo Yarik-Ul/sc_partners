@@ -3,13 +3,9 @@
     <div class="main-container">
       <section class="traffic-masters">
         <div class="title-wrap">
-          <img src="~assets/img/hand.svg" class="title-hand" alt="left hand" />
+          <img class="title-hand" src="~assets/icons/hand.svg" alt="left hand" />
           <h1 class="traffic-masters-title">Володарі Трафіку</h1>
-          <img
-            src="~assets/img/hand.svg"
-            class="title-hand right-hand"
-            alt="right hand"
-          />
+          <img class="title-hand right-hand" src="~assets/icons/hand.svg" alt="right hand" />
         </div>
         <p class="traffic-masters-disc">
           SC Partners – нова партнерська мережа з величезним досвідом та
@@ -18,12 +14,8 @@
           відстані одного повідомлення в месенджері або дзвінка, адже ми
           працюємо поряд з вами.
         </p>
-        <div class="stars" filled>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
-          <span class="icon-star"></span>
+        <div class="stars">
+          <span v-for="star in 5" :key="star"></span>
         </div>
       </section>
       <section class="information">
@@ -31,7 +23,7 @@
         <ul class="information-list">
           <li class="information-item">
             <div class="information-item-icon megaphone"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title">
                 Круті акції, призи та прибуткова бонусна програма
               </h3>
@@ -42,7 +34,7 @@
           </li>
           <li class="information-item">
             <div class="information-item-icon smile"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title">
                 Особлива підтримка<br />
                 для кожного 24/7
@@ -54,7 +46,7 @@
           </li>
           <li class="information-item">
             <div class="information-item-icon graph"></div>
-            <div class="information-text-block">
+            <div class="information-item-text-block">
               <h3 class="information-item-title br">Детальна статистика</h3>
               <p class="information-item-disc">
                 Миттєве оновлення, зрозуміла система відображення статистики
@@ -69,35 +61,35 @@
 
 <style>
 .main-container {
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
+  max-width: 1200px;
   margin: 100px auto 0;
 }
 
 .traffic-masters {
   position: relative;
-  max-width: 900px;
-  padding: 39px 44px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 auto 125px auto;
-  border-radius: 24px;
   row-gap: 25px;
+  align-items: center;
+  max-width: 900px;
+  padding: 39px 44px;
+  margin: 0 auto 125px;
   background-color: #23262f80;
+  border-radius: 24px;
 }
 
 .traffic-masters::before {
-  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('~assets/img/graph.png');
-  background-position: center;
+  content: '';
+  background-image: url('~assets/img/graph.webp');
   background-repeat: no-repeat;
+  background-position: center;
   background-size: contain;
 }
 
@@ -123,9 +115,11 @@
 }
 
 .traffic-masters-disc {
+  max-width: 812px;
   font-family: var(--roboto);
   line-height: 24px;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .stars {
@@ -133,21 +127,13 @@
   gap: 25px;
 }
 
-.icon-star {
-  position: relative;
+.stars span {
   display: block;
   width: 15px;
   height: 15px;
-}
-
-.icon-star::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
   background-image: url('~assets/icons/icon_star.svg');
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center;
   background-size: contain;
 }
 
@@ -159,26 +145,26 @@
 }
 
 .information-title {
+  margin-bottom: 75px;
   font-family: var(--gilroy);
-  color: var(--gray-200);
   font-size: 32px;
   font-weight: 700;
   line-height: 40px;
-  margin-bottom: 75px;
+  color: var(--gray-200);
 }
 
 .information-list {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .information-item {
-  width: 345px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   row-gap: 25px;
+  align-items: center;
+  width: 345px;
 }
 
 .information-item-icon {
@@ -207,12 +193,12 @@
   background-image: url('~assets/icons/icon_graph.svg');
 }
 
-.information-text-block {
+.information-item-text-block {
   display: flex;
   flex-direction: column;
+  gap: 25px;
   align-items: center;
   justify-content: center;
-  gap: 25px;
 }
 
 .information-item-title {
@@ -221,8 +207,9 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
-  text-align: center;
   color: var(--gray-400);
+  text-align: center;
+  word-wrap: break-word;
 }
 
 .br {
@@ -232,18 +219,19 @@
 .information-item-disc {
   font-family: var(--gray-500);
   text-align: center;
+  word-wrap: break-word;
 }
 
-@media (max-width: 1023px) {
+@media (width <=1023px) {
   .main-container {
-    padding: 10px;
+    padding: 0 15px 50px;
   }
 }
 
-@media (min-width: 375px) and (max-width: 767px) {
+@media (width >=375px) and (width <=767px) {
   .main-container {
-    margin-top: 50px;
     flex-direction: column-reverse;
+    margin-top: 50px;
   }
 
   .information {
@@ -251,16 +239,15 @@
   }
 
   .information-title {
+    margin-bottom: 35px;
     font-size: 25px;
     line-height: 25px;
-    margin-bottom: 35px;
   }
 
   .information-list {
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
+    flex-flow: column wrap;
     gap: 25px;
+    align-items: center;
   }
 
   .information-item {
@@ -272,17 +259,18 @@
   .information-item-icon {
     width: 45px;
     height: 45px;
+    background-size: 25px;
   }
 
-  .information-text-block {
-    width: 245px;
+  .information-item-text-block {
     gap: 5px;
+    width: 245px;
   }
 
   .information-item-title,
   .information-item-disc {
-    text-align: left;
     width: 100%;
+    text-align: left;
   }
 
   .br {
@@ -290,8 +278,8 @@
   }
 
   .traffic-masters {
-    padding: 27px;
-    margin-bottom: 35px;
+    padding: 24px;
+    margin-bottom: 0;
   }
 
   .title-wrap {
